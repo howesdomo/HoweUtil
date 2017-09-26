@@ -8,7 +8,7 @@ namespace Util
 {
     public class TxtWriter
     {
-        public static void TxtWriter(string path, string content, FileMode fileModel, Encoding encoding)
+        public static void TxtWrite(string path, string content, FileMode fileModel, Encoding encoding)
         {
             using (FileStream fs = new FileStream(path, fileModel))
             {
