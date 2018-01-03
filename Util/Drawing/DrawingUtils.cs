@@ -8,6 +8,26 @@ namespace Util.Drawing
 {
     public class DrawingUtils
     {
+        #region 格式转换
+
+        //public static void A()
+        //{
+        //    System.IO.MemoryStream ms = new System.IO.MemoryStream();
+        //    BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+        //    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)_imagesource));
+        //    encoder.Save(ms);
+
+        //    Bitmap bp = new Bitmap(ms);
+        //    ms.Close();
+        //}
+
+        //public static void B()
+        //{
+        //    BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        //}
+
+        #endregion
+
         #region 旋转
 
         /// <summary>
