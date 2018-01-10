@@ -48,12 +48,4 @@ namespace Util
             }
         }
     }
-
-    public class BusinessException : Exception
-    {
-        public BusinessException(string exMsg) : base(exMsg)
-        {
-
-        }
-    }
 }

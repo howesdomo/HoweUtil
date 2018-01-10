@@ -75,7 +75,8 @@
     <Compile Include="Excel\ExcelUtils_Aspose.cs" />
     <Compile Include="Excel\ExcelUtils_NPOI.cs" />
     <Compile Include="Excel\IExcelUtils.cs" />
-    <Compile Include="ExceptionUtil.cs" />
+    <Compile Include="Exception\BusinessException.cs" />
+    <Compile Include="Exception\ExceptionUtil.cs" />
     <Compile Include="Linq\LinqWhereIfExtension.cs" />
     <Compile Include="Linq\LinqWhereIfHasValueExtension.cs" />
     <Compile Include="Linq\LinqWhereIfNotNullOrWhiteSpaceExtension.cs" />
@@ -94,7 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DLL\" />
-    <Folder Include="Exception\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="WinRAR\WinRAR命令.txt" />

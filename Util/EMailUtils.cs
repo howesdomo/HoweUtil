@@ -12,6 +12,7 @@ namespace Util
         public void SendEMailAsync
         (
             Action<Task> handler,
+            string sender,
             List<string> receiverList,
             string subject,
             string content,
@@ -20,7 +21,7 @@ namespace Util
             MailPriority mailPriority = MailPriority.Normal
         )
         {
-            Task task = new Task(() => SendEMail(receiverList, subject, content, attachmentPathList, smtp, mailPriority));
+            Task task = new Task(() => SendEMail(sender, receiverList, subject, content, attachmentPathList, smtp, mailPriority));
             task.ContinueWith(handler);
             task.Start();
         }
@@ -28,6 +29,7 @@ namespace Util
         /// <summary>
         /// 发送邮件
         /// </summary>
+        /// <param name="sender">发送者</param>
         /// <param name="receiverList">收件人 + 抄送人地址集合</param>
         /// <param name="subject">主题</param>
         /// <param name="content">内容</param>
@@ -36,6 +38,7 @@ namespace Util
         /// <param name="mailPriority">设置邮件优先级</param>
         public void SendEMail
         (
+            string sender,
             List<string> receiverList,
             string subject,
             string content,
@@ -53,16 +56,20 @@ namespace Util
 
             if (smtp == null)
             {
-                smtp = new System.Net.Mail.SmtpClient();
+                #region 调用者必需配置 SmtpClient 对象, 以下代码仅供调用者参考如何配置 SmtpClient
 
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network; //将smtp的出站方式设为 Network
-                smtp.EnableSsl = false;//smtp服务器是否启用SSL加密
-                smtp.Host = "smtp.qiye.163.com"; //指定 smtp 服务器地址
-                smtp.Port = 25;             //指定 smtp 服务器的端口，默认是25，如果采用默认端口，可省去
+                //smtp = new System.Net.Mail.SmtpClient();
 
-                //如果你的SMTP服务器不需要身份认证，则使用下面的方式，不过，目前基本没有不需要认证的了
-                smtp.UseDefaultCredentials = true;
-                smtp.Credentials = new System.Net.NetworkCredential("howe@enpot.com.cn", "13016061994Xg");
+                //smtp.DeliveryMethod = SmtpDeliveryMethod.Network; //将smtp的出站方式设为 Network
+                //smtp.EnableSsl = false;//smtp服务器是否启用SSL加密
+                //smtp.Host = s_Host; //指定 smtp 服务器地址
+                //smtp.Port = 25;             //指定 smtp 服务器的端口，默认是25，如果采用默认端口，可省去
+
+                //// 如果你的SMTP服务器不需要身份认证，则使用下面的方式，不过，目前基本没有不需要认证的了
+                //smtp.UseDefaultCredentials = true;
+                //smtp.Credentials = new System.Net.NetworkCredential(s_UserName, s_Password);
+
+                #endregion
             }
 
             #endregion
@@ -73,7 +80,12 @@ namespace Util
 
             mailMessage.Priority = mailPriority;
             Encoding emailEncoding = Encoding.GetEncoding("gb2312");
-            mailMessage.From = new MailAddress("howe@enpot.com.cn", "howe@enpot.com.cn", emailEncoding);
+            mailMessage.From = new MailAddress
+            (
+                address: sender, 
+                displayName: sender, 
+                displayNameEncoding: emailEncoding
+            );
 
             for (int i = 0; i < receiverList.Count; i++)
             {
@@ -104,10 +116,5 @@ namespace Util
 
             smtp.Send(mailMessage);
         }
-    }
-
-    public class EMailConfig
-    {
-        SmtpClient SmtpClient { get; set; }
     }
 }

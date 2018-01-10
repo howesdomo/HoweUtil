@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Util.ObjectUtils
+namespace System
 {
     public static class ObjectUtilExtension
     {
@@ -36,19 +36,6 @@ namespace Util.ObjectUtils
                 catch { }
             }
             return (T)retval;
-        }
-
-        public static System.Drawing.Bitmap DeepClone(this System.Drawing.Bitmap source)
-        {
-            System.Drawing.Bitmap result;
-            // 不能随意关闭掉
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-
-            source.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-            stream.Seek(0, System.IO.SeekOrigin.Begin);
-            result = new System.Drawing.Bitmap(stream);
-             
-            return result;
         }
     }
 }
