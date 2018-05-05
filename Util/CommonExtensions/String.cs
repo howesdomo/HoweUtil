@@ -26,6 +26,26 @@ namespace System
 
         #endregion 空值判断
 
+        #region Trim
+
+        /// <summary>
+        /// 去掉换行符号后 Trim
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static string TrimAdv(this string content, params object[] args)
+        {
+            if (content == null)
+            {
+                return null;
+            }
+
+            return content.Replace("\r", "").Replace("\n", "").Trim();
+        }
+        
+        #endregion
+
         #region String.Format ( 格式化 )
 
         public static string FormatWith(this string format, params object[] args)
@@ -172,14 +192,14 @@ namespace System
 
         public static string ToCamel(this string s)
         {
-            // TODO 根据英文单词
+            // 尚可进一步优化 根据英文单词 进行驼峰式命名
             if (s.IsNullOrEmpty()) return s;
             return s[0].ToString().ToLower() + s.Substring(1);
         }
 
         public static string ToPascal(this string s)
         {
-            // TODO 根据英文单词
+            // 尚可进一步优化 根据英文单词 进行Pascal命名
             if (s.IsNullOrEmpty()) return s;
             return s[0].ToString().ToUpper() + s.Substring(1);
         }

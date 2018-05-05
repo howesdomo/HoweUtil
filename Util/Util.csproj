@@ -31,27 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells">
-      <HintPath>DLL\Aspose.Cells.dll</HintPath>
-    </Reference>
     <Reference Include="ChineseConverter">
       <HintPath>DLL\ChineseConverter.dll</HintPath>
     </Reference>
     <Reference Include="ChnCharInfo">
       <HintPath>DLL\ChnCharInfo.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI">
-      <HintPath>DLL\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>DLL\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>DLL\NPOI.OpenXml4Net.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,13 +64,16 @@
     <Compile Include="Drawing\DrawingUtils.cs" />
     <Compile Include="Drawing\DrawingUtil_GDI.cs" />
     <Compile Include="EMailUtils.cs" />
+    <Compile Include="Excel\ExcelCommonMethod.cs" />
     <Compile Include="Excel\ExcelUtilsExtension.cs" />
     <Compile Include="Excel\ExcelUtilsModel.cs" />
-    <Compile Include="Excel\ExcelUtils_Aspose.cs" />
-    <Compile Include="Excel\ExcelUtils_NPOI.cs" />
+    <Compile Include="Excel\ExportColumn.cs" />
     <Compile Include="Excel\IExcelUtils.cs" />
+    <Compile Include="Excel\ExcelReaderConfig.cs" />
+    <Compile Include="Excel\ExcelWriterConfig.cs" />
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\ExceptionUtil.cs" />
+    <Compile Include="Linq\LinqToDataTable.cs" />
     <Compile Include="Linq\LinqWhereIfExtension.cs" />
     <Compile Include="Linq\LinqWhereIfHasValueExtension.cs" />
     <Compile Include="Linq\LinqWhereIfNotNullOrWhiteSpaceExtension.cs" />
@@ -87,8 +84,9 @@
     <Compile Include="ProgressUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TxtWriter.cs" />
-    <Compile Include="UIInfoFormat.cs" />
     <Compile Include="WebServiceModel\SOAPResult.cs" />
+    <Compile Include="Web\IPAddressModel.cs" />
+    <Compile Include="Web\IPAddressUtils.cs" />
     <Compile Include="WinRAR\WinRARUtils.cs" />
     <Compile Include="ZPLPrinter\StringHelper.cs" />
     <Compile Include="ZPLPrinter\ZPLHelper.cs" />
@@ -97,6 +95,7 @@
     <Folder Include="DLL\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Excel\ReadMe.txt" />
     <Content Include="WinRAR\WinRAR命令.txt" />
   </ItemGroup>
   <ItemGroup>

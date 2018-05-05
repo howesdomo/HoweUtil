@@ -12,8 +12,14 @@ namespace Util.WebServiceModel
 
         }
 
+        /// <summary>
+        /// 方法运行成功
+        /// </summary>
         public bool IsComplete { get; set; }
 
+        /// <summary>
+        /// 运行报错信息
+        /// </summary>
         public string ExceptionInfo { get; set; }
 
         #region 业务逻辑

@@ -72,7 +72,7 @@ namespace Util
         public static string ReadString(object value)
         {
             string result = string.Empty;
-            if (value != DBNull.Value)
+            if (value != null && value != DBNull.Value)
             {
                 result = value.ToString();
             }
