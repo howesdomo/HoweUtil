@@ -374,14 +374,21 @@ namespace Util.Excel
             return result;
         }
 
-        public static DataTable Excel2DataTable(string path, int sheetNo = 0)
+        /// <summary>
+        /// 读取Excel文件到DataTable
+        /// </summary>
+        /// <param name="path">Excel文件路径</param>
+        /// <param name="sheetIndex">默认读取第 1 个工作表</param>
+        /// <param name="exportColumnName">将首行的值设置为DataColumn, 默认设置</param>
+        /// <returns></returns>
+        public static DataTable Excel2DataTable(string path, int sheetIndex = 0, bool exportColumnName = true)
         {
             DataTable dt = null;
             Aspose.Cells.Workbook workbook = null;
             try
             {
                 workbook = new Aspose.Cells.Workbook(path);
-                Aspose.Cells.Worksheet worksheet = workbook.Worksheets[sheetNo];
+                Aspose.Cells.Worksheet worksheet = workbook.Worksheets[sheetIndex];
 
                 var maxRowIndex = worksheet.Cells.MaxDataRow; // 读取工作表中最大的行指针 ( 由0开始 )
                 var maxColumnIndex = worksheet.Cells.MaxDataColumn; // 读取工作表中最大的列指针 ( 由0开始 )
@@ -396,7 +403,7 @@ namespace Util.Excel
                         firstColumn: 0,
                         totalRows: rowsCount,
                         totalColumns: columnsCount,
-                        exportColumnName: true
+                        exportColumnName: exportColumnName
                     );
             }
             catch (Exception ex)

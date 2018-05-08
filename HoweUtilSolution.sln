@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Excel.Aspose", "Util.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Windows.Controls", "Util.Windows.Controls\Util.Windows.Controls.csproj", "{784DE258-E5B3-4525-837B-1959C883FFBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Excel.InteropExcel", "Util.Excel.InteropExcel\Util.Excel.InteropExcel.csproj", "{AD14CCB8-D4BB-484E-9541-EB01245422B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,14 @@ Global
 		{784DE258-E5B3-4525-837B-1959C883FFBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{784DE258-E5B3-4525-837B-1959C883FFBB}.Release|x86.ActiveCfg = Release|Any CPU
 		{784DE258-E5B3-4525-837B-1959C883FFBB}.Release|x86.Build.0 = Release|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD14CCB8-D4BB-484E-9541-EB01245422B9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
