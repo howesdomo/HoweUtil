@@ -9,26 +9,19 @@ namespace Util
 {
     public class LogUtils
     {
-        public static void LogAsync(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd", Action<Task> handler = null)
-        {
-            Task task = new Task(() => Log(content, datetime, fileNameDateTimeTemplate));
-
-            if (handler != null)
-            {
-                task.ContinueWith(handler);
-            }
-
-            task.Start();
-        }
-
-        public static void Log(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd")
+        public static void Log(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd", string baseDirectory = null)
         {
             if (datetime.HasValue == false)
             {
                 datetime = DateTime.Now;
             }
 
-            string path = System.IO.Path.Combine(Environment.CurrentDirectory, "Logs_{0}.txt".FormatWith(datetime.Value.ToString(fileNameDateTimeTemplate)));
+            string path = System.IO.Path.Combine
+            (
+                baseDirectory == null ? Environment.CurrentDirectory : baseDirectory,
+                "Logs_{0}.txt".FormatWith(datetime.Value.ToString(fileNameDateTimeTemplate))
+            );
+
             FileInfo fi = new FileInfo(path);
             if (System.IO.Directory.Exists(fi.Directory.FullName) == false)
             {
@@ -49,6 +42,35 @@ namespace Util
                     sw.WriteLine(content);
                 }
             }
+        }
+
+        public static void LogAsync(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd", string baseDirectory = null, Action<Task> handler = null)
+        {
+            Task task = new Task(() => Log(content, datetime, fileNameDateTimeTemplate, baseDirectory));
+
+            if (handler != null)
+            {
+                task.ContinueWith(handler);
+            }
+
+            task.Start();
+        }
+
+        public static void WebServiceLog(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd")
+        {
+            Log(content, datetime, fileNameDateTimeTemplate, System.Web.Hosting.HostingEnvironment.MapPath("~"));
+        }
+
+        public static void WebServiceLogAsync(string content, DateTime? datetime = null, string fileNameDateTimeTemplate = "yyyyMMdd", Action<Task> handler = null)
+        {
+            Task task = new Task(() => Log(content, datetime, fileNameDateTimeTemplate, System.Web.Hosting.HostingEnvironment.MapPath("~")));
+
+            if (handler != null)
+            {
+                task.ContinueWith(handler);
+            }
+
+            task.Start();
         }
     }
 }

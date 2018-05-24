@@ -10,10 +10,11 @@ using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
 using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Util.Excel
 {
-    public class ExcelUtil_InteropExcel
+    public class ExcelUtil_InteropExcel : Util.Excel.IExcelUtils
     {
         /// <summary>
         /// 读取Excel文件
@@ -470,17 +471,6 @@ namespace Util.Excel
             return ds;
         }
 
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
-        public static void KillExcel(Microsoft.Office.Interop.Excel.Application excel)
-        {
-            IntPtr t = new IntPtr(excel.Hwnd); //得到这个句柄，具体作用是得到这块内存入口 
-            int k = 0;
-            GetWindowThreadProcessId(t, out k); //得到本进程唯一标志k
-            System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(k); //得到对进程k的引用
-            p.Kill(); //关闭进程k
-        }
-
         public DataSet GetExcelToDataSetByCondition(string strPath, string connCondition)
         {
             OleDbConnection myConnection = null;
@@ -630,5 +620,31 @@ namespace Util.Excel
 
             return r;
         }
+
+        List<T> IExcelUtils.WorkSheet2List<T>(string path, List<PropertyColumn> objectProps, int worksheetIndex, bool isContainLieDingYi, int lieDingYi_RowIndex, int lieDingYi_ColumnIndex, bool ignoreRepeatColumnName)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IExcelUtils.WorkSheet2ListAsync<T>(Action<Task<List<T>>> actionHandler, string path, List<PropertyColumn> objectProps, int worksheetIndex, bool isContainLieDingYi, int lieDingYi_RowIndex, int lieDingYi_ColumnIndex, bool ignoreRepeatColumnName)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region 关闭 Excel Process
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
+
+        public static void KillExcel(Microsoft.Office.Interop.Excel.Application excel)
+        {
+            IntPtr t = new IntPtr(excel.Hwnd); //得到这个句柄，具体作用是得到这块内存入口 
+            int processId = 0;
+            GetWindowThreadProcessId(t, out processId); //得到本进程唯一标志k
+            System.Diagnostics.Process excelProcess = System.Diagnostics.Process.GetProcessById(processId: processId); //得到对进程k的引用
+            excelProcess.Kill();
+        }
+
+        #endregion 关闭 Excel Process
     }
 }
