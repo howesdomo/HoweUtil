@@ -18,6 +18,11 @@ namespace Util.Weighting
 
         public ElectronicWeigher(ElectronicWeigherInitData args)
         {
+            setInitData(args);
+        }
+
+        private void setInitData(ElectronicWeigherInitData args)
+        {
             this.ElectronicWeigherModel = args.ElectronicWeigherModel;
 
             #region 串口
@@ -56,7 +61,19 @@ namespace Util.Weighting
 
         public void Close()
         {
-            mSerialPort.Close();
+            if (mSerialPort != null && mSerialPort.IsOpen == true)
+            {
+                mSerialPort.DataReceived -= SerialPort_DataReceived;
+                mSerialPort.ErrorReceived -= SerialPort_ErrorReceived;
+
+                mSerialPort.Close();
+            }
+        }
+
+        public void Reset(ElectronicWeigherInitData args)
+        {
+            Close();
+            setInitData(args);
         }
 
         #region 串口数据接收
@@ -66,6 +83,14 @@ namespace Util.Weighting
             dataReceived();
         }
 
+        /// <summary>
+        /// 测试错误信息显示
+        /// </summary>
+        bool mIsTestShowError = false;
+
+
+        Random rand = new Random();
+
         private void dataReceived()
         {
             string content = readSerialPortData();
@@ -74,6 +99,20 @@ namespace Util.Weighting
             string valueStr = this.fixData(content); // 根据电子秤型号处理数据
             // System.Diagnostics.Debug.WriteLine("valueStr : {0}".FormatWith(valueStr));
 
+            #region 测试错误信息显示
+
+            mIsTestShowError = true;
+            if (mIsTestShowError == true)
+            {
+                int temp = rand.Next(100);
+                if (temp % 10 == 0)
+                {
+                    valueStr = valueStr + "mIsTestShowError ** mIsTestShowError";
+                }
+            }
+
+            #endregion
+
             decimal inputValue = 0M;
             if (decimal.TryParse(valueStr, out inputValue) == true)
             {
@@ -81,12 +120,22 @@ namespace Util.Weighting
                 // System.Diagnostics.Debug.WriteLine(r.GetConsoleInfo());
                 onNetWeightReceive(r);
             }
+            else
+            {
+                CalcStableResult r = new CalcStableResult()
+                {
+                    IsComplete = false,
+                    ExceptionInfo = "valueStr的值无法转换为 decimal。\r\ncontent ：{0}\r\nvalueStr ：{1}\r\n".FormatWith(content, valueStr),
+                    EntryTime = DateTime.Now
+                };
+                onNetWeightReceive(r);
+            }
         }
 
         private string readSerialPortData()
         {
             int tryTimes = 0;
-            while (mSerialPort.BytesToRead <= 0)
+            while (mSerialPort != null && mSerialPort.BytesToRead <= 0)
             {
                 System.Threading.Thread.Sleep(100);
                 tryTimes = tryTimes + 1;
@@ -97,7 +146,11 @@ namespace Util.Weighting
                 }
             }
 
-            string r = mSerialPort.ReadExisting();
+            string r = string.Empty;
+            if (mSerialPort != null)
+            {
+                r = mSerialPort.ReadExisting();
+            }
             return r;
         }
 
@@ -155,7 +208,7 @@ namespace Util.Weighting
         int mCalcCount;
 
         /// <summary>
-        /// 稳定个数
+        /// 稳定最小个数
         /// </summary>
         int mStableCount;
 
@@ -200,22 +253,26 @@ namespace Util.Weighting
             decimal finalValue = inputValue - mGrossWeight;
 
             CalcStableResult r = new CalcStableResult();
+            r.IsComplete = true;
+            r.EntryTime = DateTime.Now;
             r.IsStable = false;
-            
+
             r.OriginWeight = inputValue;
             r.GrossWeight = mGrossWeight;
             r.NetWeight = finalValue;
 
             r.UnitOfWeight = mUnitOfWeight;
-            
+
             if (finalValue <= 0)
             {
+                System.Diagnostics.Debug.WriteLine("由于净重值[{0}]小于0, 清空Buffer。".FormatWith(finalValue, mMinWeight));
                 mBuffer.Clear();
                 return r;
             }
 
             if (finalValue > 0 && finalValue < this.mMinWeight)
             {
+                System.Diagnostics.Debug.WriteLine("由于净重值[{0}]小于最小值[{1}], 清空Buffer。".FormatWith(finalValue, mMinWeight));
                 mBuffer.Clear();
                 return r;
             }
@@ -332,6 +389,20 @@ namespace Util.Weighting
 
     public class CalcStableResult : EventArgs
     {
+        /// <summary>
+        /// 方法运行成功
+        /// </summary>
+        public bool IsComplete { get; set; }
+
+        /// <summary>
+        /// 运行报错信息
+        /// </summary>
+        public string ExceptionInfo { get; set; }
+
+        /// <summary>
+        /// 生成时间
+        /// </summary>
+        public DateTime EntryTime { get; set; }
 
         /// <summary>
         /// 是否稳定
