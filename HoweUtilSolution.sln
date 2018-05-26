@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Excel.InteropExcel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.ElectronicWeigher", "Util.ElectronicWeigher\Util.ElectronicWeigher.csproj", "{2D454AC4-754B-4E92-8B20-357855FA6AFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil", "CoreUtil\CoreUtil.csproj", "{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.Xamarin", "CoreUtil.Xamarin\CoreUtil.Xamarin.csproj", "{173139D1-0E38-4078-8695-50317E4383FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,22 @@ Global
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|x86.Build.0 = Release|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Debug|x86.Build.0 = Debug|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Release|x86.ActiveCfg = Release|Any CPU
+		{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}.Release|x86.Build.0 = Release|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Debug|x86.Build.0 = Debug|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Release|x86.ActiveCfg = Release|Any CPU
+		{173139D1-0E38-4078-8695-50317E4383FE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
