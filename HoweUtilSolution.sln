@@ -19,10 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Excel.InteropExcel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.ElectronicWeigher", "Util.ElectronicWeigher\Util.ElectronicWeigher.csproj", "{2D454AC4-754B-4E92-8B20-357855FA6AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2Util", "Core2Util\Core2Util.csproj", "{08C140AA-0A3A-4839-93C2-9AB8399A83CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2Util.Xamarin", "Core2Util.Xamarin\Core2Util.Xamarin.csproj", "{C8007CAC-14CC-4ECB-B571-BDDC3D113617}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,22 +91,6 @@ Global
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{2D454AC4-754B-4E92-8B20-357855FA6AFB}.Release|x86.Build.0 = Release|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Debug|x86.Build.0 = Debug|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Release|x86.ActiveCfg = Release|Any CPU
-		{08C140AA-0A3A-4839-93C2-9AB8399A83CF}.Release|x86.Build.0 = Release|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Debug|x86.Build.0 = Debug|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Release|x86.ActiveCfg = Release|Any CPU
-		{C8007CAC-14CC-4ECB-B571-BDDC3D113617}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
