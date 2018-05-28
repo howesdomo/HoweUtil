@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
-namespace Util.IO
+namespace CoreUtil.IO
 {
     public class FileUtils
     {
-		/// <summary>
+        /// <summary>
         /// 读取文件为Base64Str
         /// </summary>
         /// <param name="filePath"></param>
@@ -18,12 +17,12 @@ namespace Util.IO
             string base64Str = string.Empty;
 
             string finalPath = Path.Combine
-                (
-                    Environment.CurrentDirectory,
-                    "Temp",
-                    "DeleteAfterRead",
-                    "{0}{1}".FormatWith(Guid.NewGuid().ToString(), new FileInfo(filePath).Extension)
-                );
+            (
+                Environment.CurrentDirectory,
+                "Temp",
+                "DeleteAfterRead",
+                "{0}{1}".FormatWith(Guid.NewGuid().ToString(), new FileInfo(filePath).Extension)
+            );
 
             FileInfo fi = new FileInfo(finalPath);
 
@@ -89,6 +88,20 @@ namespace Util.IO
             {
                 filestream.Write(byteArray, 0, byteArray.Length);
             }
+        }
+
+        public static string GetString(string filePath)
+        {
+            string r = string.Empty;
+
+            using (FileStream filestream = new FileStream(filePath, FileMode.Open))
+            {
+                byte[] byteArry = new byte[filestream.Length];
+                filestream.Read(byteArry, 0, byteArry.Length);
+                r = Convert.ToString(byteArry);
+            }
+
+            return r;
         }
     }
 }

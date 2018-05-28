@@ -19,9 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Excel.InteropExcel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.ElectronicWeigher", "Util.ElectronicWeigher\Util.ElectronicWeigher.csproj", "{2D454AC4-754B-4E92-8B20-357855FA6AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil", "CoreUtil\CoreUtil.csproj", "{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUtil", "CoreUtil\CoreUtil.csproj", "{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.Xamarin", "CoreUtil.Xamarin\CoreUtil.Xamarin.csproj", "{173139D1-0E38-4078-8695-50317E4383FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUtil.Xamarin", "CoreUtil.Xamarin\CoreUtil.Xamarin.csproj", "{173139D1-0E38-4078-8695-50317E4383FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.Xamarin.Android", "CoreUtil.Xamarin.Android\CoreUtil.Xamarin.Android.csproj", "{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.Xamarin.iOS", "CoreUtil.Xamarin.iOS\CoreUtil.Xamarin.iOS.csproj", "{C3275D26-7B42-46F4-9292-2796F0186310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +115,22 @@ Global
 		{173139D1-0E38-4078-8695-50317E4383FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{173139D1-0E38-4078-8695-50317E4383FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{173139D1-0E38-4078-8695-50317E4383FE}.Release|x86.Build.0 = Release|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Debug|x86.Build.0 = Debug|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Release|x86.ActiveCfg = Release|Any CPU
+		{B71ADD51-D2F7-4B0B-B61A-D0E3066DD113}.Release|x86.Build.0 = Release|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3275D26-7B42-46F4-9292-2796F0186310}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
