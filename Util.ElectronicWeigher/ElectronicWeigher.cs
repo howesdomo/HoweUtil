@@ -101,15 +101,15 @@ namespace Util.ElectronicWeigher
 
             #region 测试错误信息显示
 
-            mIsTestShowError = true;
-            if (mIsTestShowError == true)
-            {
-                int temp = rand.Next(100);
-                if (temp % 10 == 0)
-                {
-                    valueStr = valueStr + "mIsTestShowError ** mIsTestShowError";
-                }
-            }
+            //mIsTestShowError = true;
+            //if (mIsTestShowError == true)
+            //{
+            //    int temp = rand.Next(100);
+            //    if (temp % 10 == 0)
+            //    {
+            //        valueStr = valueStr + "mIsTestShowError ** mIsTestShowError";
+            //    }
+            //}
 
             #endregion
 
@@ -150,6 +150,9 @@ namespace Util.ElectronicWeigher
             if (mSerialPort != null)
             {
                 r = mSerialPort.ReadExisting();
+
+                string msg = "readSerialPortData:{0}".FormatWith(r);
+                System.Diagnostics.Debug.WriteLine(msg);
             }
             return r;
         }
