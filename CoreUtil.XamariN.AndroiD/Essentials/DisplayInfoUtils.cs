@@ -2,10 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 
+// Step 1 加上 using Xamarin.Forms;
+using Xamarin.Forms;
+
+// Step 2 加上 [assembly: Dependency(typeof(CoreUtil.XamariN.Essentials.DisplayInfoUtils))]
+[assembly: Dependency(typeof(CoreUtil.XamariN.Essentials.DisplayInfoUtils))]
 namespace CoreUtil.XamariN.Essentials
 {
-    public class DisplayInfoUtils
+    public class DisplayInfoUtils : IDisplayUtils
     {
+        public DisplayInfoUtils()
+        {
+        }
+
+        /// <summary>
+        /// 实现接口方法
+        /// </summary>
+        /// <returns></returns>
+        public DisplayInfo GetDisplayInfo_V2()
+        {
+            return GetDisplayInfo();
+        }
+
         public static DisplayInfo GetDisplayInfo()
         {
             // Get Metrics
