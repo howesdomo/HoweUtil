@@ -9,22 +9,18 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(CoreUtil.XamariN.Essentials.DisplayInfoUtils))]
 namespace CoreUtil.XamariN.Essentials
 {
-    public class DisplayInfoUtils : IDisplayUtils
+    public class DisplayInfoUtils : IDisplayInfoUtils
     {
         public DisplayInfoUtils()
         {
+
         }
 
         /// <summary>
         /// 实现接口方法
         /// </summary>
         /// <returns></returns>
-        public DisplayInfo GetDisplayInfo_V2()
-        {
-            return GetDisplayInfo();
-        }
-
-        public static DisplayInfo GetDisplayInfo()
+        public DisplayInfo GetDisplayInfo()
         {
             // Get Metrics
             var metrics = Xamarin.Essentials.DeviceDisplay.ScreenMetrics;
@@ -53,6 +49,7 @@ namespace CoreUtil.XamariN.Essentials
                 Height = metrics.Height,
                 Density = metrics.Density
             };
+
         }
     }
 }

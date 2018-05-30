@@ -4,8 +4,8 @@ using System.Text;
 
 namespace CoreUtil.XamariN.Essentials
 {
-    public interface IDisplayUtils
+    public interface IDisplayInfoUtils
     {
-        DisplayInfo GetDisplayInfo_V2();
+        DisplayInfo GetDisplayInfo();
     }
 }

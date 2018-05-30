@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Essentials;
+﻿using Xamarin.Forms;
 
+[assembly: Dependency(typeof(CoreUtil.XamariN.Essentials.DeviceInfoUtils))]
 namespace CoreUtil.XamariN.Essentials
 {
-
-    public class DeviceInfoUtils
+    public class DeviceInfoUtils : IDeviceInfoUtils
     {
-        public static CoreUtil.XamariN.Essentials.DeviceInfo GetDeviceInfo()
+        public DeviceInfoUtils()
+        {
+
+        }
+
+        public CoreUtil.XamariN.Essentials.DeviceInfo GetDeviceInfo()
         {
             return new CoreUtil.XamariN.Essentials.DeviceInfo()
             {
@@ -28,7 +30,7 @@ namespace CoreUtil.XamariN.Essentials
             };
         }
 
-        public static string GetDeviceInfoMessage()
+        public string GetDeviceInfoMessage()
         {
             //// Device Model (SMG-950U)
             //var device = Xamarin.Essentials.DeviceInfo.Model;
@@ -55,7 +57,7 @@ namespace CoreUtil.XamariN.Essentials
             return m.ToString();
         }
 
-        public static string GetDeviceInfoJsonStr()
+        public string GetDeviceInfoJsonStr()
         {
             return CoreUtil.JsonUtils.SerializeObject(GetDeviceInfo());
         }
