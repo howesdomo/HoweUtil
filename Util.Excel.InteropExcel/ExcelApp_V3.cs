@@ -6,34 +6,27 @@ using System.Runtime.InteropServices;
 using Microsoft.Office.Interop.Excel;
 using nsExcelApp = Microsoft.Office.Interop.Excel;
 
+
 namespace Util.Excel
 {
     /// <summary>
-    /// 一般情况下 '不'使用 此Class 进行Excel文件信息的读取和写入,
-    /// 此Class 多数情况下用于
-    /// 1 公式的计算(打开Excel文件时, 公式值为Null的单元格会进行计算, 计算完毕后 workbook.Saved 的属性会改为 false, 此时进行一次保存。保存后的文件就能读取Excel公式的值 )
-    /// 2 Excel文件打印 (用第三方软件进行打印, 字体会出现变形 \ 图片有可能丢失)
+    /// V3 -- 2018-6-19 15:23:48
+    /// 理顺调用概念，采用 Appliaction 单例 ( 整个程序只会有一个引用 )， 首次打开时定义，整个程序退出时请执行 QuitExcelApplication 清除Excel 后台进程
     /// 
-    /// Application sExcelApp是静态且唯一的
+    /// V2
+    /// Marshal.ReleaseComObject(mWorkbooks); 清除 mXXXX (工作簿s、工作簿、工作表）
+    /// 
+    /// Application sExcelApp是单例
     /// 注意点 : 整个程序退出时, 请执行 QuitExcelApplication 清除Excel 后台进程
     /// </summary>
-
-    // ****** 更新日志 ****** 
-    // V3 -- 2018-6-19 15:23:48
-    // 理顺调用概念，采用 Appliaction 单例 ( 整个程序只会有一个引用 )， 首次打开时定义，整个程序退出时请执行 QuitExcelApplication 清除Excel 后台进程
-    // 
-    // V2
-    // Marshal.ReleaseComObject(mWorkbooks); 清除 mXXXX (工作簿s、工作簿、工作表）
-    // 
-    // V1
-    // 旧项目迁移过来, 里面的很多对 Application 和 Workbooks 处理方法都存在问题, 但读取数据的方式仍有些参考价值(读取数据有Bug的问题仍不能解决, 故仍使用
-    // 第三方控件进行数据的读取和写入
-    public class ExcelUtil_InteropExcel : IDisposable
-    // : Util.Excel.IExcelUtils
+    [Obsolete]
+    public class ExcelApp_V3 : IDisposable
     {
-        /// <summary>
-        /// 静态且唯一的
-        /// </summary>
+        // 一般情况下不使用 InteropExcel 进行Excel文件信息的读取和写入,
+        // 多数情况下使用它来进行
+        // 1 公式的计算(打开Excel文件时, 公式值为Null的单元格会进行计算, 计算完毕后 workbook.Saved 的属性会改为 false, 此时进行一次保存。保存后的文件就能读取Excel公式的值 )
+        // 2 Excel文件打印 (用第三方软件进行打印, 字体会出现变形 \ 图片有可能丢失)
+
         private static Application sExcelApp;
 
         private Workbooks mWorkbooks;
@@ -43,14 +36,8 @@ namespace Util.Excel
         /// </summary>
         private Workbook mWorkbook;
 
-        /// <summary>
-        /// 当前工作簿的WorkSheet Array
-        /// </summary>
         private Worksheet[] mWorksheetArray;
 
-        /// <summary>
-        /// 工作簿内的 WorkSheet 总数
-        /// </summary>
         public int WorkSheetsCount
         {
             get
@@ -65,14 +52,11 @@ namespace Util.Excel
         }
 
         /// <summary>
-        /// 当前工作簿中激活的WorkSheet
+        /// 当前工作簿内 的 工作表
         /// </summary>
         private Worksheet mWorksheet;
 
-
-        private bool mIsWebApp;
-
-        public ExcelUtil_InteropExcel(string filePath)
+        public ExcelApp_V3(string filePath)
         {
             if (sExcelApp == null)
             {
@@ -83,34 +67,9 @@ namespace Util.Excel
             }
 
             mWorkbooks = sExcelApp.Workbooks;
-
-            mIsWebApp = false;
-
             this.Open(filePath);
         }
 
-
-        public ExcelUtil_InteropExcel(string filePath, bool isWebApp)
-        {
-            if (sExcelApp == null)
-            {
-                sExcelApp = new Application();
-
-                sExcelApp.Visible = false;
-                sExcelApp.DisplayAlerts = false;
-            }
-
-            mWorkbooks = sExcelApp.Workbooks;
-
-            mIsWebApp = isWebApp;
-
-            this.Open(filePath);
-        }
-
-        /// <summary>
-        /// 打开工作簿
-        /// </summary>
-        /// <param name="fullFilePath"></param>
         public void Open(string fullFilePath)
         {
             mWorkbook = mWorkbooks._Open(fullFilePath,
@@ -130,6 +89,9 @@ namespace Util.Excel
             }
 
             mWorksheet = (Worksheet)mWorkbook.ActiveSheet;
+
+            mColCount = 0;
+            mRowCount = 0;
         }
 
         private void Close()
@@ -149,35 +111,35 @@ namespace Util.Excel
             mWorkbook = null;
         }
 
-        private static object _LOCK_ = new object();
+        #region IDisposable Members
+
         public void Dispose()
         {
-            lock (_LOCK_)
+            try
             {
-                try
-                {
-                    Close();
+                Close();
 
-                    if (mWorkbooks != null)
-                    {
-                        Marshal.ReleaseComObject(mWorkbooks);
-                    }
-
-                    //if (sExcelApp != null)
-                    //{
-                    //    sExcelApp.Quit();
-                    //    Marshal.ReleaseComObject(sExcelApp);
-                    //}
-                }
-                catch (Exception ex)
+                if (mWorkbooks != null)
                 {
-                    Console.WriteLine("dispose ExcelApp object failed", ex);
+                    Marshal.ReleaseComObject(mWorkbooks);
                 }
 
-                mWorkbooks = null;
-                //sExcelApp = null;
+                //if (sExcelApp != null)
+                //{
+                //    sExcelApp.Quit();
+                //    Marshal.ReleaseComObject(sExcelApp);
+                //}
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("dispose ExcelApp object failed", ex);
+            }
+
+            mWorkbooks = null;
+            //sExcelApp = null;
         }
+
+        #endregion
 
         public static void QuitExcelApplication()
         {
@@ -201,7 +163,13 @@ namespace Util.Excel
 
 
 
-        public string ActiveWorksheetName
+
+
+        public int mColCount { get; set; }
+
+        public int mRowCount { get; set; }
+
+        public string WorksheetName
         {
             get
             {
@@ -216,6 +184,96 @@ namespace Util.Excel
             }
         }
 
+        // TODO Range ==> object[]
+        #region Get Excel Range
+
+        public Range GetCell(int rowIndex, int cellIndex)
+        {
+            Range cells = null;
+            Range range = null;
+
+            try
+            {
+                cells = sExcelApp.Cells;
+                range = (Range)cells[1 + rowIndex, 1 + cellIndex];
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(cells);
+            }
+
+            return range;
+        }
+
+        public Range GetColumn(int cellIndex)
+        {
+            Range range = null;
+            Range cells = null;
+            object rangeX = null;
+            object rangeY = null;
+
+            try
+            {
+                cells = sExcelApp.Cells;
+                rangeX = cells[1, 1 + cellIndex];
+                rangeY = cells[mRowCount, 1 + cellIndex];
+                range = mWorksheet.get_Range(rangeX, rangeY);
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(rangeX);
+                Marshal.ReleaseComObject(rangeY);
+                Marshal.ReleaseComObject(cells);
+            }
+
+            return range;
+        }
+
+        public Range GetRange(int xRowIndex, int xCellIndex, int yRowIndex, int yCellIndex)
+        {
+            Range range = null;
+            Range cells = null;
+            object rangeX = null;
+            object rangeY = null;
+
+            try
+            {
+                cells = sExcelApp.Cells;
+                rangeX = cells[1 + xRowIndex, 1 + xCellIndex];
+                rangeY = cells[yRowIndex + 1, yCellIndex + 1];
+                range = mWorksheet.get_Range(rangeX, rangeY);
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(rangeX);
+                Marshal.ReleaseComObject(rangeY);
+                Marshal.ReleaseComObject(cells);
+            }
+
+            return range;
+        }
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+        public void AddWorkbook()
+        {
+            mWorkbook = mWorkbooks.Add(true);
+            mWorksheet = (Worksheet)mWorkbook.ActiveSheet;
+
+            mColCount = 0;
+            mRowCount = 0;
+        }
+
         /// <summary>
         /// 保存
         /// </summary>
@@ -228,18 +286,11 @@ namespace Util.Excel
         /// 另存为
         /// </summary>
         /// <param name="saveFilePath"></param>
-        public string SaveCopyAs(string saveFilePath = "")
+        public void Save(string saveFilePath)
         {
             if (saveFilePath.IsNullOrWhiteSpace())
             {
-                if (mIsWebApp == true)
-                {
-                    saveFilePath = this.GetSaveFilePath_WebService();
-                }
-                else
-                {
-                    saveFilePath = this.GetSaveFilePath();
-                }
+                throw new ArgumentNullException("saveFilePath");
             }
 
             string directory = Path.GetDirectoryName(saveFilePath);
@@ -255,34 +306,6 @@ namespace Util.Excel
             }
 
             mWorkbook.SaveCopyAs(saveFilePath);
-
-            return saveFilePath;
-        }
-
-        public string GetSaveFilePath(bool isXLS = false)
-        {
-            string r = System.IO.Path.Combine
-            (
-                Environment.CurrentDirectory,
-                "Temp",
-                "ExcelFiles",
-                "{0}.{1}".FormatWith(Guid.NewGuid().ToString(), isXLS ? "xls" : "xlsx")
-            );
-
-            return r;
-        }
-
-        public string GetSaveFilePath_WebService(bool isXLS = false)
-        {
-            string r = System.IO.Path.Combine
-            (
-                System.Web.Hosting.HostingEnvironment.MapPath("~"),
-                "Export",
-                "ExcelFiles",
-                "{0}.{1}".FormatWith(Guid.NewGuid().ToString(), isXLS ? "xls" : "xlsx")
-            );
-
-            return r;
         }
 
         /// <summary>
@@ -336,5 +359,13 @@ namespace Util.Excel
             }
         }
 
+        public void Reset()
+        {
+            Close();
+            AddWorkbook();
+        }
+
+
     }
+
 }
