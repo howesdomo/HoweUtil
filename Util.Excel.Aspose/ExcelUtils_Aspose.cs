@@ -866,5 +866,41 @@ namespace Util.Excel
 
         #endregion
 
+        /// <summary>
+        /// 打印DEMO
+        /// Aspose.Cell 原理输出为Image, 打印Image
+        /// </summary>
+        public static void PrintDemo(string filePath)
+        {
+            Workbook workbook = new Workbook(filePath);
+
+            //Get the worksheet to be printed
+            Worksheet worksheet = workbook.Worksheets[0];
+
+            PageSetup pageSetup = worksheet.PageSetup;
+            pageSetup.Orientation = PageOrientationType.Landscape;
+            //pageSetup.LeftMargin = 0;
+            //pageSetup.RightMargin = 0.1;
+            //pageSetup.BottomMargin = 0.3;
+            //pageSetup.PrintArea = "A2:J29"; // 打印区域
+            //Apply different Image / Print options.
+
+            Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
+
+            //Set the Printing page property
+            //options.PrintingPage = PrintingPageType.IgnoreStyle;
+            //Render the worksheet
+
+            Aspose.Cells.Rendering.SheetRender sr = new Aspose.Cells.Rendering.SheetRender(worksheet, options);
+
+            System.Drawing.Image map = sr.ToImage(0); // 核心 -- 将 SheetRendar转为 Image 进行打印
+                                                      // map.Save(@"D:\HoweDesktop\A{0}".FormatWith(DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")));
+
+            // send to printer 核心打印 Image
+            System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
+            string strPrinterName = printSettings.PrinterName;
+            sr.ToPrinter(strPrinterName);
+        }
+
     }
 }
