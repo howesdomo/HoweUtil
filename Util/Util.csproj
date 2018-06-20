@@ -75,6 +75,7 @@
     <Compile Include="Exception\ExceptionUtil.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="Linq\LinqToDataTable.cs" />
+    <Compile Include="Linq\LinqToString.cs" />
     <Compile Include="Linq\LinqWhereIfExtension.cs" />
     <Compile Include="Linq\LinqWhereIfHasValueExtension.cs" />
     <Compile Include="Linq\LinqWhereIfNotNullOrWhiteSpaceExtension.cs" />
