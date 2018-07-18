@@ -21,9 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.ElectronicWeigher", "U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUtil", "CoreUtil\CoreUtil.csproj", "{EE7390A5-23F9-4BE1-BAEE-08AF34CA0E61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.XamariN", "CoreUtil.XamariN\CoreUtil.XamariN.csproj", "{2B71107F-9D70-40DB-AEC9-0301C538CD59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUtil.XamariN", "CoreUtil.XamariN\CoreUtil.XamariN.csproj", "{2B71107F-9D70-40DB-AEC9-0301C538CD59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreUtil.XamariN.AndroiD", "CoreUtil.XamariN.AndroiD\CoreUtil.XamariN.AndroiD.csproj", "{74238F48-08A7-4D24-90A1-0383CA864C77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUtil.XamariN.AndroiD", "CoreUtil.XamariN.AndroiD\CoreUtil.XamariN.AndroiD.csproj", "{74238F48-08A7-4D24-90A1-0383CA864C77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.Extensions", "Util.Extensions\Util.Extensions.csproj", "{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,14 @@ Global
 		{74238F48-08A7-4D24-90A1-0383CA864C77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74238F48-08A7-4D24-90A1-0383CA864C77}.Release|x86.ActiveCfg = Release|Any CPU
 		{74238F48-08A7-4D24-90A1-0383CA864C77}.Release|x86.Build.0 = Release|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE93DD3C-4E47-40C2-BB6D-1101A683EB29}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

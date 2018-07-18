@@ -117,7 +117,15 @@ namespace Util.Excel
 
         #endregion
 
-        public void Save(string fullFilePath)
+        public void Save()
+        {
+            if (mWorkbook.Saved == false)
+            {
+                mWorkbook.Save();
+            }
+        }
+
+        public void SaveCopyAs(string fullFilePath)
         {
             if (string.IsNullOrEmpty(fullFilePath))
             {
@@ -164,13 +172,18 @@ namespace Util.Excel
             RowCount = 0;
         }
 
+        /// <summary>
+        /// TODO 执行打印后无法执行关闭后台进程
+        /// </summary>
+        /// <param name="printerName"></param>
+        /// <param name="isLandscape"></param>
         public void Print(string printerName = "", bool isLandscape = false)
         {
             try
             {
-                for (int index = 1; index <= mWorkbooks.Count; index++)
+                for (int index = 0; index < mWorkbook.Sheets.Count; index++)
                 {
-                    nsExcelApp.Worksheet wookSheet = (nsExcelApp.Worksheet)mWorkbook.Worksheets[index];
+                    nsExcelApp.Worksheet wookSheet = (nsExcelApp.Worksheet)mWorkbook.Worksheets[index + 1];
 
                     if (isLandscape == true)
                     {
@@ -182,8 +195,6 @@ namespace Util.Excel
                     }
                 }
 
-                mWorkbook.Save();
-
                 #region 选择打印机
 
                 if (printerName.IsNullOrWhiteSpace() == false ||
@@ -191,7 +202,7 @@ namespace Util.Excel
                     )
                 {
                     // TODO 如何获取这样特殊的打印机名称 Ne04 ==> net 04 号打印机
-                    
+
                     // 修改打印机测试成功
                     // Foxit Reader PDF Printer 在 Ne04:
                     // HP LaserJet Professional P1606dn 在 Ne03:
@@ -204,7 +215,7 @@ namespace Util.Excel
                 mWorkbook.PrintOutEx();
 
                 // *** 核心代码, 等待 x 秒, 让打印任务得以完成, 之后再进行Close的方法 ***
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5)); 
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)
             {
@@ -260,6 +271,9 @@ namespace Util.Excel
 
             mWorkbooks = null;
             mExcelApp = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         #endregion

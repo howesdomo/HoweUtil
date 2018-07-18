@@ -374,10 +374,11 @@ namespace Util.Web
 
             if (result == "127.0.0.1" || result == "::1")//获取本机内网IP
             {
-                System.Net.IPAddress[] addressList = Dns.GetHostByName(Dns.GetHostName()).AddressList;//获取本机内网IP
-                string strgetIP = addressList.Length > 0 ? addressList[0].ToString() : String.Empty;
-                if (IsIP(strgetIP)) //代理即是IP格式 
-                    result = strgetIP;
+                // TODO 如何获取本机内网IP
+                //System.Net.IPAddress[] addressList = Dns.GetHostByName(Dns.GetHostName()).AddressList;//获取本机内网IP
+                //string strgetIP = addressList.Length > 0 ? addressList[0].ToString() : String.Empty;
+                //if (IsIP(strgetIP)) //代理即是IP格式 
+                //    result = strgetIP;
             }
             return result;
         }

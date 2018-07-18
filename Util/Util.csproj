@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChineseConverter">
-      <HintPath>DLL\ChineseConverter.dll</HintPath>
-    </Reference>
-    <Reference Include="ChnCharInfo">
-      <HintPath>DLL\ChnCharInfo.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
@@ -74,6 +68,7 @@
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\ExceptionUtil.cs" />
     <Compile Include="IO\FileUtils.cs" />
+    <Compile Include="JsonUtils.cs" />
     <Compile Include="Linq\LinqToDataTable.cs" />
     <Compile Include="Linq\LinqToString.cs" />
     <Compile Include="Linq\LinqWhereIfExtension.cs" />

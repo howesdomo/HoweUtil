@@ -163,6 +163,8 @@ namespace Util.ElectronicWeigher
 
         public const char char_Space = ' ';
 
+        public const char char_minus = '-';
+
         private string fixData(string arg)
         {
             string r = arg;
@@ -171,7 +173,9 @@ namespace Util.ElectronicWeigher
                 case "DHIII-30电子计重秤":
                     r = fixData_DHIII_30(arg);
                     break;
-
+                case "T2000":
+                    r = fixData_T2000(arg);
+                    break;
                 default:
                     break;
             }
@@ -183,6 +187,27 @@ namespace Util.ElectronicWeigher
         {
             string temp = new string(arg.ToCharArray().Reverse().ToArray());
             return temp.Replace(char_Equal, char_Space).TrimAdv();
+        }
+
+        private string fixData_T2000(string arg)
+        {
+            string r = string.Empty;
+            foreach (char c in arg)
+            {
+                if (char.IsDigit(c))
+                {
+                    r = r + c.ToString();
+                }
+                else if (c.Equals(char_Dot))
+                {
+                    r = r + c.ToString();
+                }
+                else if (c.Equals(char_minus))
+                {
+                    r = r + c.ToString();
+                }
+            }
+            return r;
         }
 
         private void SerialPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
@@ -304,7 +329,8 @@ namespace Util.ElectronicWeigher
 
             if (matchMaxOccur != null &&
                 Math.Abs(finalValue - matchMaxOccur.Value) <= this.mFloatValue &&
-                matchMaxOccur.Count >= this.mStableCount
+                matchMaxOccur.Count >= this.mStableCount &&
+                finalValue >= mMinWeight && finalValue <= mMaxWeight
                 )
             {
                 r.IsStable = true;

@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/Util/DLL/ChnCharInfo.dll
+/Util/DLL/ChineseConverter.dll
+/Util/DLL/ChineseConverterVSIP.dll
