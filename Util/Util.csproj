@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeHelper.cs" />
+    <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\Exception.cs" />
     <Compile Include="CommonExtensions\String.cs" />
     <Compile Include="DataAccess\CommonDal.cs" />

@@ -253,3 +253,4 @@ paket-files/
 /Util/DLL/ChnCharInfo.dll
 /Util/DLL/ChineseConverter.dll
 /Util/DLL/ChineseConverterVSIP.dll
+/Util/.vscode

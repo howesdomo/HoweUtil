@@ -9,7 +9,7 @@ using nsExcelApp = Microsoft.Office.Interop.Excel;
 namespace Util.Excel
 {
     /// <summary>
-    /// 一般情况下 '不'使用 此Class 进行Excel文件信息的读取和写入,
+    /// 一般情况下 $不$使用 此Class 进行Excel文件信息的读取和写入,
     /// 此Class 多数情况下用于
     /// 1 公式的计算(打开Excel文件时, 公式值为Null的单元格会进行计算, 计算完毕后 workbook.Saved 的属性会改为 false, 此时进行一次保存。保存后的文件就能读取Excel公式的值 )
     /// 2 Excel文件打印 (用第三方软件进行打印, 字体会出现变形 \ 图片有可能丢失)
@@ -278,15 +278,26 @@ namespace Util.Excel
         /// <summary>
         /// 打印
         /// </summary>
-        /// <param name="printerName"></param>
-        /// <param name="isLandscape"></param>
-        public void Print(string printerName = "", bool isLandscape = false)
+        /// <param name="printerName">选择打印机</param>
+        /// <param name="paperSize">选择纸张</param>
+        /// <param name="isLandscape">打印方向, 默认纵向打印(false), 横向打印请填写(true)</param>
+        public void Print
+            (
+                string printerName = "",
+                int? paperSize = null,
+                bool isLandscape = false
+            )
         {
             try
             {
                 for (int index = 0; index < mWorksheetArray.Length; index++)
                 {
                     nsExcelApp.Worksheet wookSheet = mWorksheetArray[index];
+
+                    if (paperSize.HasValue)
+                    {
+                        wookSheet.PageSetup.PaperSize = (XlPaperSize)paperSize.Value;
+                    }
 
                     if (isLandscape == true)
                     {
@@ -298,7 +309,6 @@ namespace Util.Excel
                     }
                 }
 
-                
                 #region 选择打印机
 
                 if (printerName.IsNullOrWhiteSpace() == false ||
