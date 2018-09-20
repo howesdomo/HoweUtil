@@ -778,7 +778,12 @@ namespace Util.Excel
                                 propInfo.SetValue(item, valueAfterConvert, index);
                             }
                             break;
-
+                        case "SYSTEM.INT32":
+                            {
+                                int valueAfterConvert = Convert.ToInt32(value);
+                                propInfo.SetValue(item, valueAfterConvert, index);
+                            }
+                            break;
                         default:
                             throw argEx;
                     }
@@ -900,6 +905,59 @@ namespace Util.Excel
             System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
             string strPrinterName = printSettings.PrinterName;
             sr.ToPrinter(strPrinterName);
+        }
+
+        public static void DataSet2Excel(string filePath, DataSet ds, bool[] showColumnNameArray = null, int[,] positionArray = null)
+        {
+            FileFormatType fileFormatType = FileFormatType.Xlsx;
+            if (filePath.EndsWith("xlsx", StringComparison.InvariantCultureIgnoreCase))
+            {
+                fileFormatType = FileFormatType.Xlsx;
+            }
+            else if (filePath.EndsWith("xls", StringComparison.InvariantCultureIgnoreCase))
+            {
+                fileFormatType = FileFormatType.Xlsx;
+            }
+
+            Workbook workbook = new Workbook(fileFormatType: fileFormatType);
+            for (int index = 0; index < ds.Tables.Count; index++)
+            {
+                Worksheet workSheet = workbook.Worksheets[index];
+
+                DataTable dt = ds.Tables[index];
+                if (dt.TableName.IsNullOrEmpty() == true)
+                {
+                    workSheet.Name = "Sheet{0}".FormatWith(index + 1);
+                }
+                else
+                {
+                    workSheet.Name = dt.TableName;
+                }
+
+                bool isFieldNameShown = true;
+                if (showColumnNameArray != null)
+                {
+                    isFieldNameShown = showColumnNameArray[index];
+                }
+
+                int tmpFirstRow = 0;
+                int tmpFirstColumn = 0;
+                if (positionArray != null)
+                {
+                    tmpFirstRow = positionArray[index, 0];
+                    tmpFirstColumn = positionArray[index, 1];
+                }
+
+                workSheet.Cells.ImportDataTable
+                (
+                    dataTable: dt,
+                    isFieldNameShown: isFieldNameShown,
+                    firstRow: tmpFirstRow,
+                    firstColumn: tmpFirstColumn
+                );
+            }
+
+            workbook.Save(filePath);
         }
 
     }
