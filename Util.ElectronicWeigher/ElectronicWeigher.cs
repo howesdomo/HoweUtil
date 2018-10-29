@@ -33,6 +33,11 @@ namespace Util.ElectronicWeigher
                 mSerialPort.BaudRate = args.BaudRate.Value;
             }
 
+            if (args.ThreadSleep_BeforeReadExisting.HasValue == true)
+            {
+                mThreadSleep_BeforeReadExisting = args.ThreadSleep_BeforeReadExisting.Value;
+            }
+
             // TODO Special Setting
             // mSerialPort.Parity = Parity.None; 
 
@@ -132,6 +137,8 @@ namespace Util.ElectronicWeigher
             }
         }
 
+        private int mThreadSleep_BeforeReadExisting = 80;
+
         private string readSerialPortData()
         {
             int tryTimes = 0;
@@ -149,7 +156,11 @@ namespace Util.ElectronicWeigher
             string r = string.Empty;
             if (mSerialPort != null)
             {
-                r = mSerialPort.ReadExisting();
+                System.Threading.Thread.Sleep(mThreadSleep_BeforeReadExisting);
+                if (mSerialPort.IsOpen)
+                {
+                    r = mSerialPort.ReadExisting();
+                }
 
                 string msg = "readSerialPortData:{0}".FormatWith(r);
                 System.Diagnostics.Debug.WriteLine(msg);

@@ -19,6 +19,8 @@ namespace Util.ElectronicWeigher
 
         public int? BaudRate { get; set; }
 
+        public int? ThreadSleep_BeforeReadExisting { get; set; }
+
         #endregion
 
         #region 称重
