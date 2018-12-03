@@ -13,13 +13,18 @@ namespace Util.IO
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static string GetFileToBase64Str(string filePath)
+        public static string GetFileToBase64Str(string filePath, string currentDirectory = "")
         {
             string base64Str = string.Empty;
 
+            if (currentDirectory.IsNullOrWhiteSpace() == true)
+            {
+                currentDirectory = Environment.CurrentDirectory;
+            }
+
             string finalPath = Path.Combine
                 (
-                    Environment.CurrentDirectory,
+                    currentDirectory,
                     "Temp",
                     "DeleteAfterRead",
                     "{0}{1}".FormatWith(Guid.NewGuid().ToString(), new FileInfo(filePath).Extension)
@@ -46,6 +51,16 @@ namespace Util.IO
             return base64Str;
         }
 
+        /// <summary>
+        /// 读取文件为Base64Str
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string WebService_GetFileToBase64Str(string filePath)
+        {
+            return FileUtils.GetFileToBase64Str(filePath, System.Web.Hosting.HostingEnvironment.MapPath("~"));
+        }
+        
         /// <summary>
         /// Base64Str存储到文件
         /// </summary>

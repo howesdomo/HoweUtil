@@ -22,16 +22,23 @@ namespace System
 
             bool continueZero = true;
 
-            for (int i = charArray.Length - 1; i >= 0; i--)
+            if (charArray.ToList().Contains('.')) // 不含小数点的不需要进行去零
             {
-                if (continueZero == true && charArray[i] == '0')
+                for (int i = charArray.Length - 1; i >= 0; i--)
                 {
-                    continueZero = true;
-                    continue;
-                }
+                    if (continueZero == true && charArray[i] == '0')
+                    {
+                        continueZero = true;
+                        continue;
+                    }
 
-                continueZero = false;
-                fixString = "{0}{1}".FormatWith(charArray[i], fixString);
+                    continueZero = false;
+                    fixString = "{0}{1}".FormatWith(charArray[i], fixString);
+                }
+            }
+            else
+            {
+                fixString = s;
             }
 
             decimal r = 0M;
@@ -46,6 +53,12 @@ namespace System
                 {
                     throw new Exception("转换decimal失败");
                 }
+            }
+
+            if (arg.CompareTo(r) != 0)
+            {
+                string msg = "TrimZero 转换后值不相等请进行排查。\r\nargs:{0}\r\nr:{1}".FormatWith(arg, r);
+                throw new Exception(msg);
             }
 
             return r;

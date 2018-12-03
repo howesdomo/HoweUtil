@@ -473,7 +473,8 @@ namespace Util.Excel
                 case CellValueType.IsDateTime:
                     return cell.DateTimeValue;
                 case CellValueType.IsError:
-                    return cell.IsErrorValue;
+					// return cell.IsErrorValue; // 返回 string 值为 "True"
+                    return cell.Value; // 返回string 值为 "#N/A"
                 case CellValueType.IsNull:
                     return null;
                 case CellValueType.IsNumeric:

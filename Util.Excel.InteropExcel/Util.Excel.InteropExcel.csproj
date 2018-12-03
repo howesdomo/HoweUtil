@@ -57,7 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="设计ExcelUtil_InteropExcel的依据.png" />
+    <Content Include="V3版本设计ExcelUtil_InteropExcel的依据.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
