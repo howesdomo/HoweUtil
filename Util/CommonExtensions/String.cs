@@ -36,7 +36,7 @@ namespace System
 
             return content.Replace("\r", "").Replace("\n", "").Trim();
         }
-        
+
         #endregion
 
         #region String.Format ( 格式化 )
@@ -244,23 +244,24 @@ namespace System
         /// <summary>
         /// RSA 加密
         /// </summary>
-        /// <param name="toEncryptString"></param>
-        /// <returns></returns>
+        /// <param name="toEncryptString">加密的信息</param>
+        /// <param name="publickey">公钥(可空)</param>
+        /// <returns>Base64Str</returns>
         public static string RSA_Encrypt(this string toEncryptString, string publickey = "")
         {
-            byte[] temp = Util.Cryptography.RSAUtils.Encrypt(toEncryptString, publickey);
-            return temp.ToString();
+            return Util.Cryptography.RSAUtils.Encrypt2Base64Str(toEncryptString, publickey);
         }
+
 
         /// <summary>
         /// RSA 解密
         /// </summary>
-        /// <param name="textToEncrypt"></param>
-        /// <returns></returns>
+        /// <param name="toDecryptString">Base64Str</param>
+        /// <param name="privateKey">私钥(可空)</param>
+        /// <returns>解密信息</returns>
         public static string RSA_Decrypt(this string toDecryptString, string privateKey = "")
         {
-            byte[] temp = Util.Cryptography.RSAUtils.Decrypt(toDecryptString, privateKey);
-            return temp.ToString();
+            return Util.Cryptography.RSAUtils.Decrypt2String(toDecryptString, privateKey);
         }
 
 

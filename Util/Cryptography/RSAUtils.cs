@@ -14,6 +14,8 @@ namespace Util.Cryptography
     /// </summary>
     public class RSAUtils
     {
+        private static readonly Encoding sEncoder = Encoding.UTF8;
+
         private static string sPublicKey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
         private static string sPrivatekey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
@@ -34,14 +36,12 @@ namespace Util.Cryptography
         /// <param name="publickey"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static byte[] Encrypt(string content, string publickey = "")
+        public static byte[] Encrypt(byte[] byteArr_UTF8Content, string publickey = "")
         {
             if (publickey.IsNullOrEmpty())
             {
                 publickey = sPublicKey;
             }
-
-            byte[] byteArr_r = null; // 加密结果
 
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider();
             rsa.FromXmlString(publickey);
@@ -50,8 +50,8 @@ namespace Util.Cryptography
             int bufferSize = keySize - 11;
             byte[] buffer = new byte[bufferSize];
 
-            byte[] byteArr_Content = Encoding.UTF8.GetBytes(content);
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_Content))
+            byte[] r = null;
+            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_UTF8Content))
             {
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
                 {
@@ -73,14 +73,19 @@ namespace Util.Cryptography
                         readLen = msInput.Read(buffer, 0, bufferSize);
                     }
 
-                    byteArr_r = msOutput.ToArray(); // 获得全部加密结果
+                    r = msOutput.ToArray(); // 获得全部加密结果
                     rsa.Clear();
                 }
             }
 
-            //string r = Convert.ToBase64String(byteArr_r);
-            //return r;
-            return byteArr_r;
+            return r;
+        }
+
+        public static string Encrypt2Base64Str(string content, string publickey = "")
+        {
+            byte[] byteArr_UTF8Content = RSAUtils.sEncoder.GetBytes(content);
+            byte[] byteArr_Encrypted = RSAUtils.Encrypt(byteArr_UTF8Content, publickey);
+            return Convert.ToBase64String(byteArr_Encrypted);
         }
 
         /// <summary>
@@ -89,14 +94,12 @@ namespace Util.Cryptography
         /// <param name="privatekey"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static byte[] Decrypt(string content, string privatekey = "")
+        public static byte[] Decrypt(byte[] byteArr_EncryptedContent, string privatekey = "")
         {
             if (privatekey.IsNullOrEmpty())
             {
                 privatekey = sPrivatekey;
             }
-
-            byte[] byteArr_r = null; // 解密结果
 
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider();
             rsa.FromXmlString(privatekey);
@@ -104,8 +107,8 @@ namespace Util.Cryptography
             int keySize = rsa.KeySize / 8;
             byte[] buffer = new byte[keySize];
 
-            byte[] byteArr_Content = Encoding.UTF8.GetBytes(content);
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_Content))
+            byte[] r = null; // 解密结果
+            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_EncryptedContent))
             {
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
                 {
@@ -128,13 +131,19 @@ namespace Util.Cryptography
                         readLen = msInput.Read(buffer, 0, keySize);
                     }
 
-                    byteArr_r = msOutput.ToArray(); // 获得全部加密结果
+                    r = msOutput.ToArray(); // 获得全部加密结果
                     rsa.Clear();
                 }
             }
+            return r;
+        }
 
-            // string r = Convert.ToBase64String(byteArr_r);
-            return byteArr_r;
+        public static string Decrypt2String(string base64Str, string privatekey = "")
+        {
+            byte[] byteArr_ToDecrypt = Convert.FromBase64String(base64Str);
+            byte[] byteArr_Decrypted = RSAUtils.Decrypt(byteArr_ToDecrypt, privatekey);
+
+            return RSAUtils.sEncoder.GetString(byteArr_Decrypted);
         }
     }
 }
