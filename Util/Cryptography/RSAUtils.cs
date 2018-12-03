@@ -5,6 +5,13 @@ using System.Text;
 
 namespace Util.Cryptography
 {
+    /// <summary>
+    /// V 1.0.0.1 - 2018-12-3 16:00:58
+    /// 加密内容过长, 提示 "不正确的长度" 报错, 计划使用 分段 的方式进行 加密/解密
+    /// 
+    /// V 1.0.0.0 - 2018-12-3 16:00:58
+    /// RSAUtils 创建
+    /// </summary>
     public class RSAUtils
     {
         private static string sPublicKey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
@@ -27,20 +34,53 @@ namespace Util.Cryptography
         /// <param name="publickey"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static string Encrypt(string content, string publickey = "")
+        public static byte[] Encrypt(string content, string publickey = "")
         {
             if (publickey.IsNullOrEmpty())
             {
                 publickey = sPublicKey;
             }
 
+            byte[] byteArr_r = null; // 加密结果
+
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider();
             rsa.FromXmlString(publickey);
-            byte[] cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(content), false);
-            // string r = Encoding.UTF8.GetString(cipherbytes);
-            string r = Convert.ToBase64String(cipherbytes);
 
-            return r;
+            int keySize = rsa.KeySize / 8;
+            int bufferSize = keySize - 11;
+            byte[] buffer = new byte[bufferSize];
+
+            byte[] byteArr_Content = Encoding.UTF8.GetBytes(content);
+            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_Content))
+            {
+                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                {
+                    int readLen = msInput.Read(buffer, 0, bufferSize);
+                    while (readLen > 0)
+                    {
+                        byte[] dataToEncrypt = new byte[readLen];
+                        Array.Copy
+                        (
+                            sourceArray: buffer,
+                            sourceIndex: 0,
+                            destinationArray: dataToEncrypt,
+                            destinationIndex: 0,
+                            length: readLen
+                        );
+
+                        byte[] encrypted = rsa.Encrypt(rgb: dataToEncrypt, fOAEP: false);
+                        msOutput.Write(encrypted, 0, encrypted.Length);
+                        readLen = msInput.Read(buffer, 0, bufferSize);
+                    }
+
+                    byteArr_r = msOutput.ToArray(); // 获得全部加密结果
+                    rsa.Clear();
+                }
+            }
+
+            //string r = Convert.ToBase64String(byteArr_r);
+            //return r;
+            return byteArr_r;
         }
 
         /// <summary>
@@ -49,19 +89,52 @@ namespace Util.Cryptography
         /// <param name="privatekey"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static string Decrypt(string content, string privatekey = "")
+        public static byte[] Decrypt(string content, string privatekey = "")
         {
             if (privatekey.IsNullOrEmpty())
             {
                 privatekey = sPrivatekey;
             }
 
+            byte[] byteArr_r = null; // 解密结果
+
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider();
             rsa.FromXmlString(privatekey);
-            byte[] cipherbytes = rsa.Decrypt(Convert.FromBase64String(content), false);
-            string r = Encoding.UTF8.GetString(cipherbytes);
 
-            return r;
+            int keySize = rsa.KeySize / 8;
+            byte[] buffer = new byte[keySize];
+
+            byte[] byteArr_Content = Encoding.UTF8.GetBytes(content);
+            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(byteArr_Content))
+            {
+                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                {
+                    int readLen = msInput.Read(buffer, 0, keySize);
+                    while (readLen > 0)
+                    {
+                        byte[] dataToDecrypt = new byte[readLen];
+
+                        Array.Copy
+                        (
+                            sourceArray: buffer,
+                            sourceIndex: 0,
+                            destinationArray: dataToDecrypt,
+                            destinationIndex: 0,
+                            length: readLen
+                        );
+
+                        byte[] decrypted = rsa.Decrypt(rgb: dataToDecrypt, fOAEP: false);
+                        msOutput.Write(decrypted, 0, decrypted.Length);
+                        readLen = msInput.Read(buffer, 0, keySize);
+                    }
+
+                    byteArr_r = msOutput.ToArray(); // 获得全部加密结果
+                    rsa.Clear();
+                }
+            }
+
+            // string r = Convert.ToBase64String(byteArr_r);
+            return byteArr_r;
         }
     }
 }

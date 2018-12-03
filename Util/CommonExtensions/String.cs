@@ -248,7 +248,8 @@ namespace System
         /// <returns></returns>
         public static string RSA_Encrypt(this string toEncryptString, string publickey = "")
         {
-            return Util.Cryptography.RSAUtils.Encrypt(toEncryptString, publickey);
+            byte[] temp = Util.Cryptography.RSAUtils.Encrypt(toEncryptString, publickey);
+            return temp.ToString();
         }
 
         /// <summary>
@@ -258,7 +259,8 @@ namespace System
         /// <returns></returns>
         public static string RSA_Decrypt(this string toDecryptString, string privateKey = "")
         {
-            return Util.Cryptography.RSAUtils.Decrypt(toDecryptString, privateKey);
+            byte[] temp = Util.Cryptography.RSAUtils.Decrypt(toDecryptString, privateKey);
+            return temp.ToString();
         }
 
 
