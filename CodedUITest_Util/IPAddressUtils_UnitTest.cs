@@ -17,11 +17,12 @@ namespace CodedUITest_Util
             (
                 request: new HttpRequest("", "http://192.168.1.2", ""),
                 response: new HttpResponse(new StringWriter(new StringBuilder()))
-            );
+            );            
         }
 
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void TestMethod1()
         {
             var r = Util.Web.IPAddressUtils.GetIPAddressAdv();

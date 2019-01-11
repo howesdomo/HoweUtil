@@ -70,6 +70,21 @@ namespace Util
                 //smtp.Credentials = new System.Net.NetworkCredential(s_UserName, s_Password);
 
                 #endregion
+
+                #region 由于阿里云会 ban 端口25 防止邮件泛滥, 采用 SSL 方式绕过 端口25
+
+                //// QQ邮箱需要先开通 POP3/SMTP服务 与 IMAP/SMTP服务, 使用开通后赋予的授权码填写到 s_Password 中
+                //smtp = new System.Net.Mail.SmtpClient();
+
+                //smtp.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network; //将smtp的出站方式设为 Network
+                //smtp.EnableSsl = true;//smtp服务器是否启用SSL加密
+                //smtp.Host = "smtp.qq.com"; //指定 smtp 服务器地址
+                //smtp.Port = 587;             //指定 smtp 服务器的端口，默认是25，如果采用默认端口，可省去
+
+                //smtp.UseDefaultCredentials = false;
+                //smtp.Credentials = new System.Net.NetworkCredential(s_UserName, s_Password); // s_Password QQ邮箱 输入授权码
+
+                #endregion
             }
 
             #endregion

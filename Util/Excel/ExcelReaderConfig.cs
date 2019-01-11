@@ -19,7 +19,7 @@ namespace Util.Excel
     /// </summary>
     public class SheetReadConfig
     {
-        public int SheetNo { get; set; }
+        public int? SheetIndex { get; set; }
 
         public string SheetName { get; set; }
 

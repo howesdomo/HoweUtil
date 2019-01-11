@@ -64,7 +64,7 @@ namespace Util.Excel
 
                     if (config != null && config.Config != null)
                     {
-                        matchReadConfig = config.Config.FirstOrDefault(j => j.SheetName == sheet.SheetName || j.SheetNo == sheetNo);
+                        matchReadConfig = config.Config.FirstOrDefault(j => j.SheetName == sheet.SheetName || (j.SheetIndex.HasValue == true && j.SheetIndex == sheetNo));
                         if (matchReadConfig == null)
                         {
                             continue;
@@ -90,7 +90,9 @@ namespace Util.Excel
                                 //continue;
                             }
                             else
+                            {
                                 dt.Columns.Add(new DataColumn(obj.ToString()));
+                            }
                             columns.Add(i);
                         }
                     }

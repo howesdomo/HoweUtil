@@ -33,9 +33,9 @@ namespace Util.Cryptography
         /// <summary>
         /// RSA加密
         /// </summary>
-        /// <param name="publickey"></param>
-        /// <param name="content"></param>
-        /// <returns></returns>
+        /// <param name="byteArr_UTF8Content">加密内容</param>
+        /// <param name="publickey">公钥(可空)</param>
+        /// <returns>加密内容</returns>
         public static byte[] Encrypt(byte[] byteArr_UTF8Content, string publickey = "")
         {
             if (publickey.IsNullOrEmpty())
@@ -81,6 +81,12 @@ namespace Util.Cryptography
             return r;
         }
 
+        /// <summary>
+        /// RSA加密 - 返回Base64Str
+        /// </summary>
+        /// <param name="content">加密内容</param>
+        /// <param name="publickey">公钥(可空)</param>
+        /// <returns>返回Base64Str</returns>
         public static string Encrypt2Base64Str(string content, string publickey = "")
         {
             byte[] byteArr_UTF8Content = RSAUtils.sEncoder.GetBytes(content);
@@ -91,9 +97,9 @@ namespace Util.Cryptography
         /// <summary>
         /// RSA解密
         /// </summary>
-        /// <param name="privatekey"></param>
-        /// <param name="content"></param>
-        /// <returns></returns>
+        /// <param name="byteArr_EncryptedContent">加密的byteArr</param>
+        /// <param name="privatekey">私钥(可空)</param>
+        /// <returns>解密内容</returns>
         public static byte[] Decrypt(byte[] byteArr_EncryptedContent, string privatekey = "")
         {
             if (privatekey.IsNullOrEmpty())
@@ -138,6 +144,12 @@ namespace Util.Cryptography
             return r;
         }
 
+        /// <summary>
+        /// RSA解密
+        /// </summary>
+        /// <param name="base64Str">加密过的Base64Str</param>
+        /// <param name="privatekey">私钥(可空)</param>
+        /// <returns>解密内容</returns>
         public static string Decrypt2String(string base64Str, string privatekey = "")
         {
             byte[] byteArr_ToDecrypt = Convert.FromBase64String(base64Str);

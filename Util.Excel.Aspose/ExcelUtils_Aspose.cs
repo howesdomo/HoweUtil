@@ -234,7 +234,7 @@ namespace Util.Excel
                     if (config != null && config.Config != null) // 跳过不读取的Sheet (名称 或 顺序)
                     {
                         // matchReadConfig = config.Config.FirstOrDefault(j => j.SheetName == sheet.SheetName || j.SheetNo == sheetNo);
-                        matchReadConfig = config.Config.FirstOrDefault(j => j.SheetName == sheet.Name || j.SheetNo == sheetNo);
+                        matchReadConfig = config.Config.FirstOrDefault(j => j.SheetName == sheet.Name || (j.SheetIndex.HasValue == true && j.SheetIndex == sheetNo));
                         if (matchReadConfig == null)
                         {
                             continue;
@@ -473,7 +473,7 @@ namespace Util.Excel
                 case CellValueType.IsDateTime:
                     return cell.DateTimeValue;
                 case CellValueType.IsError:
-					// return cell.IsErrorValue; // 返回 string 值为 "True"
+                    // return cell.IsErrorValue; // 返回 string 值为 "True"
                     return cell.Value; // 返回string 值为 "#N/A"
                 case CellValueType.IsNull:
                     return null;
