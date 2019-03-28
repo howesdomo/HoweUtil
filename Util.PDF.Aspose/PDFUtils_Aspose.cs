@@ -122,7 +122,7 @@ namespace Util.PDF
 
         public static string TestRead()
         {
-            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "testAspose.pdf");
+            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TestReadGAC.pdf");
             Document pdfDocument = new Aspose.Pdf.Document(path);
 
             // instantiate TextFragment Absorber object
@@ -140,6 +140,112 @@ namespace Util.PDF
             {
                 l.Add(tf.Text);
             }
+
+            if (l.Count > 0)
+            {
+                return l[0];
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string TestReadGAC(string path)
+        {
+            List<string> l = new List<string>();
+            Document pdfDocument = new Aspose.Pdf.Document(path);
+
+            // Get particular page
+            Page pdfPage = (Page)pdfDocument.Pages[1];
+
+            // Create text fragment
+            TextFragment textFragment = new TextFragment("I------------------I");
+            textFragment.Position = new Position(20, 585);
+
+            // Set text properties
+            textFragment.TextState.FontSize = 12;
+            textFragment.TextState.Font = FontRepository.FindFont("TimesNewRoman");
+            textFragment.TextState.BackgroundColor = Aspose.Pdf.Color.FromRgb(System.Drawing.Color.LightGray);
+            textFragment.TextState.ForegroundColor = Aspose.Pdf.Color.FromRgb(System.Drawing.Color.Red);
+
+            // Create TextBuilder object
+            TextBuilder textBuilder = new TextBuilder(pdfPage);
+
+            // Append the text fragment to the PDF page
+            textBuilder.AppendText(textFragment);
+
+
+
+            #region 
+
+            // Create text fragment
+            textFragment = new TextFragment("O------------------O");
+            // textFragment.Position = new Position(20, 554);
+            textFragment.Position = new Position(20, 556);
+
+            // Set text properties
+            textFragment.TextState.FontSize = 12;
+            textFragment.TextState.Font = FontRepository.FindFont("TimesNewRoman");
+            textFragment.TextState.BackgroundColor = Aspose.Pdf.Color.FromRgb(System.Drawing.Color.LightGray);
+            textFragment.TextState.ForegroundColor = Aspose.Pdf.Color.FromRgb(System.Drawing.Color.Red);
+
+            // Create TextBuilder object
+            textBuilder = new TextBuilder(pdfPage);
+
+            // Append the text fragment to the PDF page
+            textBuilder.AppendText(textFragment);
+
+            #endregion
+
+            var outPutPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "testAspose{0}.pdf".FormatWith(DateTime.Now.ToString("HHmmss")));
+            pdfDocument.Save(outPutPath);
+
+            return string.Empty;
+        }
+
+        public static string TestReadGAC_BAK(string path)
+        {
+            List<string> l = new List<string>();
+
+
+            Document pdfDocument = new Aspose.Pdf.Document(path);
+
+            Aspose.Pdf.Text.TextFragmentAbsorber textFragmentAbsorberAddress = new Aspose.Pdf.Text.TextFragmentAbsorber();
+
+            double width = 50d;
+            double height = 30d;
+
+            double x = 20d;
+            double y = 585d;
+
+            for (int i = 0; i < 3; i++)
+            {
+                // textFragmentAbsorberAddress.TextSearchOptions.LimitToPageBounds = true;
+                textFragmentAbsorberAddress.TextSearchOptions.LimitToPageBounds = false;
+
+                var rectangle = new Aspose.Pdf.Rectangle
+                (
+                    //llx: x,
+                    //lly: y - i * height,
+                    //urx: width,
+                    //ury: height
+
+                    llx: width,
+                    lly: height,
+                    urx: x,
+                    ury: y - i * height
+                );
+
+                textFragmentAbsorberAddress.TextSearchOptions.Rectangle = rectangle;
+                pdfDocument.Pages[1].Accept(textFragmentAbsorberAddress);
+                foreach (Aspose.Pdf.Text.TextFragment tf in textFragmentAbsorberAddress.TextFragments)
+                {
+                    l.Add(tf.Text);
+                }
+            }
+
+            l = l.Distinct().ToList();
 
             if (l.Count > 0)
             {

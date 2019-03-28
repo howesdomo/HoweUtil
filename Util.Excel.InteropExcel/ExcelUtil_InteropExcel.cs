@@ -290,6 +290,28 @@ namespace Util.Excel
         {
             try
             {
+                // !!!! 重点, 先要设置打印机, 然后再设置纸张 !!!!
+                
+                #region 设置打印机
+
+                if (printerName.IsNullOrWhiteSpace() == false ||
+                    mExcelApp.ActivePrinter.StartsWith(printerName) == false
+                    )
+                {
+                    mExcelApp.ActivePrinter = printerName;
+
+                    // 需要获取这样特殊的打印机名称 Ne04 ==> net 04 号打印机
+                    // 修改打印机测试成功
+                    // Foxit Reader PDF Printer 在 Ne04:
+                    // HP LaserJet Professional P1606dn 在 Ne03:
+                    //string p = "Foxit Reader PDF Printer 在 Ne04:";
+                    //excelApp.ActivePrinter = p;
+                }
+
+                #endregion
+
+                #region 设置纸张大小 & 旋转
+
                 for (int index = 0; index < mWorksheetArray.Length; index++)
                 {
                     nsExcelApp.Worksheet wookSheet = mWorksheetArray[index];
@@ -307,22 +329,6 @@ namespace Util.Excel
                     {
                         wookSheet.PageSetup.Orientation = nsExcelApp.XlPageOrientation.xlPortrait; // 纵向
                     }
-                }
-
-                #region 选择打印机
-
-                if (printerName.IsNullOrWhiteSpace() == false ||
-                    mExcelApp.ActivePrinter.StartsWith(printerName) == false
-                    )
-                {
-                    mExcelApp.ActivePrinter = printerName;
-
-                    // 需要获取这样特殊的打印机名称 Ne04 ==> net 04 号打印机
-                    // 修改打印机测试成功
-                    // Foxit Reader PDF Printer 在 Ne04:
-                    // HP LaserJet Professional P1606dn 在 Ne03:
-                    //string p = "Foxit Reader PDF Printer 在 Ne04:";
-                    //excelApp.ActivePrinter = p;
                 }
 
                 #endregion
@@ -366,6 +372,196 @@ namespace Util.Excel
             else
             {
                 Util.LogUtils.LogAsync(ex.GetFullInfo());
+            }
+        }
+
+
+
+
+        public void DataTableToExcel(System.Data.DataTable dt, string file_name, string sheet_name)
+        {
+            Microsoft.Office.Interop.Excel.Application Myxls = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook Mywkb = Myxls.Workbooks.Add();
+            Microsoft.Office.Interop.Excel.Worksheet MySht = Mywkb.ActiveSheet;
+            MySht.Name = sheet_name;
+            Myxls.Visible = false;
+            Myxls.DisplayAlerts = false;
+
+            //写入表头
+            object[] arrHeader = new object[dt.Columns.Count];
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                arrHeader[i] = dt.Columns[i].ColumnName;
+            }
+            MySht.Range[MySht.Cells[1, 1], MySht.Cells[1, dt.Columns.Count]].Value2 = arrHeader;
+            //写入表体数据
+            object[,] arrBody = new object[dt.Rows.Count, dt.Columns.Count];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    arrBody[i, j] = dt.Rows[i][j].ToString();
+                }
+            }
+            MySht.Range[MySht.Cells[2, 1], MySht.Cells[dt.Rows.Count + 1, dt.Columns.Count]].Value2 = arrBody;
+            if (Mywkb != null)
+            {
+                Mywkb.SaveAs(file_name);
+                Mywkb.Close(Type.Missing, Type.Missing, Type.Missing);
+                Mywkb = null;
+            }
+        }
+		
+		
+		
+		public static void PrintSpecial(string printerName,
+                string filePath,
+                int? paperSize = null,
+                bool isLandscape = false
+            )
+        {
+            Microsoft.Office.Interop.Excel.Application mExcelApp = null;
+            Microsoft.Office.Interop.Excel.Workbooks mWorkbooks = null;
+            Microsoft.Office.Interop.Excel.Workbook mWorkbook = null;
+            Microsoft.Office.Interop.Excel.Worksheet[] mWorksheetArray = null;
+
+            try
+            {
+                #region 打开Excel文档 ( 静默模式 )
+
+                mExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                mExcelApp.Visible = false;
+                mExcelApp.DisplayAlerts = false;
+
+                mWorkbooks = mExcelApp.Workbooks;
+                mWorkbook = mWorkbooks._Open
+                (
+                    Filename: filePath,
+                    UpdateLinks: Missing.Value,
+                    ReadOnly: Missing.Value,
+                    Format: Missing.Value,
+                    Password: Missing.Value,
+                    WriteResPassword: Missing.Value,
+                    IgnoreReadOnlyRecommended: Missing.Value,
+                    Origin: Missing.Value,
+                    Delimiter: Missing.Value,
+                    Editable: Missing.Value,
+                    Notify: Missing.Value,
+                    Converter: Missing.Value,
+                    AddToMru: Missing.Value
+                );
+
+                mWorksheetArray = new Microsoft.Office.Interop.Excel.Worksheet[mWorkbook.Sheets.Count];
+
+                for (int i = 0; i < mWorksheetArray.Length; i++)
+                {
+                    mWorksheetArray[i] = (Microsoft.Office.Interop.Excel.Worksheet)mWorkbook.Sheets[i + 1]; // Excel 的 Sheet 索引由 1 开始算, 故 i + 1
+                }
+
+                if (mWorkbook.Saved == false) // 打开Excel文件后, 公式会自动运算, 运算结果需要保存
+                {
+                    mWorkbook.Save();
+                }
+
+                #endregion
+
+                #region 设置打印机
+
+                if (printerName.IsNullOrWhiteSpace() == false ||
+                    mExcelApp.ActivePrinter.StartsWith(printerName) == false
+                    )
+                {
+                    mExcelApp.ActivePrinter = printerName;
+
+                    // 需要获取这样特殊的打印机名称 Ne04 ==> net 04 号打印机
+                    // 修改打印机测试成功
+                    // Foxit Reader PDF Printer 在 Ne04:
+                    // HP LaserJet Professional P1606dn 在 Ne03:
+                    //string p = "Foxit Reader PDF Printer 在 Ne04:";
+                    //excelApp.ActivePrinter = p;
+                }
+
+                #endregion
+
+                #region 设置纸张大小 & 旋转
+
+                for (int index = 0; index < mWorksheetArray.Length; index++)
+                {
+                    Microsoft.Office.Interop.Excel.Worksheet wookSheet = mWorksheetArray[index];
+
+                    if (paperSize.HasValue)
+                    {
+                        wookSheet.PageSetup.PaperSize = (Microsoft.Office.Interop.Excel.XlPaperSize)paperSize.Value;
+                    }
+
+                    if (isLandscape == true)
+                    {
+                        wookSheet.PageSetup.Orientation = Microsoft.Office.Interop.Excel.XlPageOrientation.xlLandscape; // 横向
+                    }
+                    else
+                    {
+                        wookSheet.PageSetup.Orientation = Microsoft.Office.Interop.Excel.XlPageOrientation.xlPortrait; // 纵向
+                    }
+                }
+
+                #endregion
+
+                #region 个性化代码
+
+
+                #endregion 个性化代码
+            }
+            catch (Exception ex)
+            {
+                #region 关闭 Excel 进程 & 释放资源
+
+                try
+                {
+                    if (mWorksheetArray != null)
+                    {
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(mWorksheetArray);
+                    }
+                    mWorksheetArray = null;
+
+
+                    if (mWorkbook != null)
+                    {
+                        mWorkbook.Close
+                        (
+                            SaveChanges: false,
+                            Filename: null,
+                            RouteWorkbook: null
+                        );
+
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(mWorkbook);
+                    }
+                    mWorkbook = null;
+
+                    if (mWorkbooks != null)
+                    {
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(mWorkbooks);
+                    }
+                    mWorkbooks = null;
+
+                    if (mExcelApp != null)
+                    {
+                        mExcelApp.Quit();
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(mExcelApp);
+                    }
+                    mExcelApp = null;
+                }
+                catch (Exception ex2)
+                {
+                    Util.LogUtils.LogAsync(ex2.GetFullInfo());
+                }
+
+                // 关闭Excel进程 -- 核心代码 
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                #endregion
+
+                throw ex;
             }
         }
 
