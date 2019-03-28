@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeHelper.cs" />
+    <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\Exception.cs" />
     <Compile Include="CommonExtensions\String.cs" />
@@ -63,6 +64,9 @@
     <Compile Include="Drawing\ColorUtils.cs" />
     <Compile Include="Drawing\DrawingUtils.cs" />
     <Compile Include="Drawing\DrawingUtil_GDI.cs" />
+    <Compile Include="Drawing\Printing\PaperSize.cs" />
+    <Compile Include="Drawing\Printing\Printer.cs" />
+    <Compile Include="Drawing\Printing\PrinterUtils.cs" />
     <Compile Include="EMailUtils.cs" />
     <Compile Include="Excel\ExcelCommonMethod.cs" />
     <Compile Include="Excel\ExcelUtilsExtension.cs" />
@@ -77,6 +81,9 @@
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
     <Compile Include="JsonUtils.cs" />
+    <Compile Include="Linq\Class1.cs" />
+    <Compile Include="Linq\DictionaryExtension.cs" />
+    <Compile Include="Linq\LinqOrderByExtension.cs" />
     <Compile Include="Linq\LinqToDataTable.cs" />
     <Compile Include="Linq\LinqToString.cs" />
     <Compile Include="Linq\LinqWhereIfExtension.cs" />
