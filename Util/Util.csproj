@@ -79,7 +79,6 @@
     <Compile Include="Exception\ExceptionUtil.cs" />
     <Compile Include="GZipUtils.cs" />
     <Compile Include="IO\FileUtils.cs" />
-    <Compile Include="IO\Path.cs" />
     <Compile Include="IO\SerialPort.cs" />
     <Compile Include="JsonUtils.cs" />
     <Compile Include="Linq\Class1.cs" />
