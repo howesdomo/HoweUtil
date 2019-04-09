@@ -54,11 +54,11 @@ namespace Util.IO
         {
             List<Parity> r = new List<Parity>();
 
-            r.Add(new Parity() { Value = System.IO.Ports.Parity.None, DisplayName = "None(无)" });
-            r.Add(new Parity() { Value = System.IO.Ports.Parity.Odd, DisplayName = "Odd(奇校验)" });
-            r.Add(new Parity() { Value = System.IO.Ports.Parity.Even, DisplayName = "Even(偶校验)" });
-            r.Add(new Parity() { Value = System.IO.Ports.Parity.Mark, DisplayName = "Mark(标志)" });
-            r.Add(new Parity() { Value = System.IO.Ports.Parity.Space, DisplayName = "Space(空格)" });
+            r.Add(new Parity() { Value = System.IO.Ports.Parity.None, XMLValue = "NONE", DisplayName = "None(无)" });
+            r.Add(new Parity() { Value = System.IO.Ports.Parity.Odd, XMLValue = "ODD", DisplayName = "Odd(奇校验)" });
+            r.Add(new Parity() { Value = System.IO.Ports.Parity.Even, XMLValue = "EVEN", DisplayName = "Even(偶校验)" });
+            r.Add(new Parity() { Value = System.IO.Ports.Parity.Mark, XMLValue = "MARK", DisplayName = "Mark(标志)" });
+            r.Add(new Parity() { Value = System.IO.Ports.Parity.Space, XMLValue = "SPACE", DisplayName = "Space(空格)" });
 
             return r;
         }
@@ -84,17 +84,17 @@ namespace Util.IO
         }
 
         #endregion
-        
+
         #region StopBits - 停止位
 
         public static List<StopBits> GetStopBitsList()
         {
             List<StopBits> r = new List<StopBits>();
 
-            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.None, DisplayName = "None(无)" });
-            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.One, DisplayName = "1" });
-            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.OnePointFive, DisplayName = "1.5" });
-            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.Two, DisplayName = "2" });
+            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.None, XMLValue = "NONE", DisplayName = "None(无)" });
+            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.One, XMLValue = "ONE", DisplayName = "1" });
+            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.OnePointFive, XMLValue = "ONEPOINTFIVE", DisplayName = "1.5" });
+            r.Add(new StopBits() { Value = System.IO.Ports.StopBits.Two, XMLValue = "TWO", DisplayName = "2" });
 
             return r;
         }
@@ -126,6 +126,8 @@ namespace Util.IO
     {
         public int Value { get; set; }
 
+        public string XMLValue { get; set; }
+
         public string DisplayName { get; set; }
 
         public BaudRate()
@@ -136,6 +138,7 @@ namespace Util.IO
         public BaudRate(int v)
         {
             this.Value = v;
+            this.XMLValue = v.ToString();
             this.DisplayName = v.ToString();
         }
     }
@@ -147,6 +150,8 @@ namespace Util.IO
     {
         public int Value { get; set; }
 
+        public string XMLValue { get; set; }
+
         public string DisplayName { get; set; }
 
         public DataBits()
@@ -157,6 +162,7 @@ namespace Util.IO
         public DataBits(int v)
         {
             this.Value = v;
+            this.XMLValue = v.ToString();
             this.DisplayName = v.ToString();
         }
     }
@@ -167,6 +173,8 @@ namespace Util.IO
     public class Parity
     {
         public System.IO.Ports.Parity Value { get; set; }
+
+        public string XMLValue { get; set; }
 
         public string DisplayName { get; set; }
 
@@ -182,6 +190,8 @@ namespace Util.IO
     public class StopBits
     {
         public System.IO.Ports.StopBits Value { get; set; }
+
+        public string XMLValue { get; set; }
 
         public string DisplayName { get; set; }
 

@@ -79,6 +79,7 @@
     <Compile Include="Exception\ExceptionUtil.cs" />
     <Compile Include="GZipUtils.cs" />
     <Compile Include="IO\FileUtils.cs" />
+    <Compile Include="IO\Path.cs" />
     <Compile Include="IO\SerialPort.cs" />
     <Compile Include="JsonUtils.cs" />
     <Compile Include="Linq\Class1.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="ProgressUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TxtWriter.cs" />
+    <Compile Include="UIComponent\BaseCollection.cs" />
+    <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="WebServiceModel\SOAPResult.cs" />
     <Compile Include="Web\IPAddressModel.cs" />
     <Compile Include="Web\IPAddressUtils.cs" />
