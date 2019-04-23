@@ -105,5 +105,33 @@ namespace Util.IO
                 filestream.Write(byteArray, 0, byteArray.Length);
             }
         }
+
+        /// <summary>
+        /// 获取文件大小信息
+        /// </summary>
+        /// <param name="fileLen">文件大小长度</param>
+        /// <param name="level">当前等级</param>
+        /// <returns>返回文件大小信息</returns>
+        public static string GetFileLengthInfo(long fileLen, int level = 1)
+        {
+            if (fileLen < 1024L)
+            {
+                string template = string.Empty;
+                switch (level)
+                {
+                    case 1: template = "{0} B"; break;
+                    case 2: template = "{0} KB"; break;
+                    case 3: template = "{0} MB"; break;
+                    case 4: template = "{0} GB"; break;
+                    case 5: template = "{0} TB"; break;
+                    default: break;
+                }
+                return template.FormatWith(fileLen);
+            }
+            else
+            {
+                return GetFileLengthInfo(fileLen / 1024L, level + 1);
+            }
+        }
     }
 }

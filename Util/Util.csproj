@@ -55,6 +55,7 @@
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
+    <Compile Include="Cryptography\SHA1Utils.cs" />
     <Compile Include="DataAccess\CommonDal.cs" />
     <Compile Include="DataAccess\DBHelper.cs" />
     <Compile Include="DataLogic\CommonBll.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="UIComponent\BaseCollection.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="WebServiceModel\SOAPResult.cs" />
+    <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\IPAddressModel.cs" />
     <Compile Include="Web\IPAddressUtils.cs" />
     <Compile Include="WinRAR\WinRARUtils.cs" />
