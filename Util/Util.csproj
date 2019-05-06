@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,10 +79,15 @@
     <Compile Include="Excel\ExcelWriterConfig.cs" />
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\ExceptionUtil.cs" />
+    <Compile Include="GPSUtils.cs" />
     <Compile Include="GZipUtils.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
     <Compile Include="JsonUtils.cs" />
+    <Compile Include="LBS\LBSInfo.cs" />
+    <Compile Include="LBS\LBSPoint.cs" />
+    <Compile Include="LBS\LBSUtils.cs" />
+    <Compile Include="LBS\LocationTypeEnum.cs" />
     <Compile Include="Linq\Class1.cs" />
     <Compile Include="Linq\DictionaryExtension.cs" />
     <Compile Include="Linq\LinqOrderByExtension.cs" />
