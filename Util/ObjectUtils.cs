@@ -33,7 +33,11 @@ namespace System
             foreach (System.Reflection.FieldInfo field in fields)
             {
                 try { field.SetValue(retval, DeepCloneByReflection(field.GetValue(obj))); }
-                catch { }
+                catch (Exception ex)
+                {
+                    string msg = "ObjectUtilExtension - DeepCloneByBinary\r\n{0}".FormatWith(ex.GetFullInfo());
+                    System.Diagnostics.Debug.WriteLine(msg);
+                }
             }
             return (T)retval;
         }
