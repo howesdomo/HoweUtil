@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
-    <Compile Include="CommonExtensions\Exception.cs" />
     <Compile Include="CommonExtensions\String.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
@@ -114,7 +113,7 @@
     <Compile Include="Excel\ExcelReaderConfig.cs" />
     <Compile Include="Excel\ExcelWriterConfig.cs" />
     <Compile Include="Exception\BusinessException.cs" />
-    <Compile Include="Exception\ExceptionUtil.cs" />
+    <Compile Include="Exception\ExceptionExtension.cs" />
     <Compile Include="GZipUtils.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
