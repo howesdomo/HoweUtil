@@ -95,6 +95,7 @@
     <Compile Include="Cryptography\SHA1Utils.cs" />
     <Compile Include="DataAccess\CommonDal.cs" />
     <Compile Include="DataAccess\DBHelper.cs" />
+    <Compile Include="DataAccess\NullableDateTimeArgs.cs" />
     <Compile Include="DataLogic\CommonBll.cs" />
     <Compile Include="DateTimeUtils.cs" />
     <Compile Include="DownloadUtils.cs" />
