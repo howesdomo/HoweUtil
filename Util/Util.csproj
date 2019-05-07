@@ -84,7 +84,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeHelper.cs" />
     <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\Exception.cs" />
