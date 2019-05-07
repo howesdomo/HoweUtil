@@ -27,11 +27,11 @@ namespace Util.LBS
         /// </summary>
         public bool IsOutOfChina { get; set; }
 
-        public LBSPoint(double lat, double lng, LocationType t = LocationType.GCJ_02)
+        public LBSPoint(double lat, double lng, LocationType locType = LocationType.GCJ_02)
         {
             this.Lat = lat;
             this.Lng = lng;
-            this.LocationType = t;
+            this.LocationType = locType;
         }
     }
 }

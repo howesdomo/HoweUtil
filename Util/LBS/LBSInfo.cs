@@ -37,7 +37,7 @@ namespace Util.LBS
                     break;
             }
 
-            this.IsOutOfChina = Util.LBS.LBSUtils.IsOutOfChina(this.WGS_84.Lat, this.WGS_84.Lng);
+            this.IsOutOfChina = Util.LBS.LBSUtils.IsOutOfChina(this);
 
             this.WGS_84.IsOutOfChina = this.IsOutOfChina;
             this.GCJ_02.IsOutOfChina = this.IsOutOfChina;

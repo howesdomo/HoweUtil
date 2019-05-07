@@ -20,37 +20,6 @@ namespace Util.LBS
         private static double ee = 0.00669342162296594323;
         private static double bd_pi = 3.14159265358979324 * 3000.0 / 180.0;
 
-        // 弃用 精度太差
-        //public static bool IsOutOfChina(double lat, double lng)
-        //{
-        //    if (lng < 72.004 || lng > 137.8347)
-        //    {
-        //        return true;
-        //    }
-        //    if (lat < 0.8293 || lat > 55.8271)
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-
-        // https://github.com/zcsoft/ZCChinaLocation/blob/master/ZCChinaLocation/ZCChinaLocation/ZCChinaLocation.m
-        public static bool IsOutOfChina(double lat, double lng) // TODO
-        {
-            if (lng < 72.004 || lng > 137.8347)
-            {
-                return true;
-            }
-            if (lat < 0.8293 || lat > 55.8271)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         static double transformLat(double x, double y)
         {
             double ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.Sqrt(Math.Abs(x));
@@ -170,7 +139,7 @@ namespace Util.LBS
             if (isSimpleMatch(point, pointRange)) // 先用最小外包法判断
             {
                 // 符合最小外包法判断后用暴力遍历法细致判断
-                return isPointInPolygon(point, pointRange); 
+                return isPointInPolygon(point, pointRange);
             }
             else
             {
@@ -279,7 +248,56 @@ namespace Util.LBS
 
         #region 中国境内地理围栏
 
+        public static bool IsOutOfChina(LBSInfo lbsInfo)
+        {
+            return !MBR(lbsInfo.WGS_84, WGS_84RangeOfChina);
+        }
 
+        /// <summary>
+        /// 中国境内地理围栏
+        /// </summary>
+        private static List<Util.LBS.LBSPoint> WGS_84RangeOfChina = new List<LBSPoint>()
+        {
+            new LBSPoint(lng: 123.15668, lat:53.87982, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 127.44135, lat:52.69778, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 128.67182, lat:49.85366, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 135.13178, lat:48.60541, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 133.59369, lat:44.60778, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 131.39643, lat:42.63569, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 121.99213, lat:38.49843, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 123.66205, lat:37.00443, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 123.67903, lat:21.62132, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 117.79035, lat:20.91489, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 117.64154, lat:14.20276, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 111.40131, lat:13.43465, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 107.49283, lat:19.16804, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 107.70157, lat:21.43471, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 105.30271, lat:23.11538, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 101.57834, lat:21.05916, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 99.0726, lat:22.11164, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 97.03119, lat:24.26914, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 98.21771, lat:27.54932, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 92.7804, lat:26.94102, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 88.92179, lat:27.31304, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 78.17641, lat:31.33941, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 78.18580, lat:32.60265, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 78.43227, lat:34.21159, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 74.35381, lat:37.02668, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 73.45553, lat:39.45471, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 79.9396, lat:42.29008, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 79.8423, lat:45.05689, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 87.53009, lat:49.32554, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 91.42816, lat:46.27266, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 95.60297, lat:44.35696, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 96.63501, lat:42.93401, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 111.76318, lat:43.67086, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 111.79112, lat:45.23349, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 119.73423, lat:46.85754, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 115.11469, lat:48.12367, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 116.82704, lat:49.89767, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 120.61733, lat:52.26965, locType: LocationType.WGS_84 ),
+            new LBSPoint(lng: 119.68349, lat:52.92362, locType: LocationType.WGS_84 ),
+        };
 
         #endregion
     }
