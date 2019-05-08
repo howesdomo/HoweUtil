@@ -132,7 +132,7 @@ namespace Util.IO
                     default: break;
                 }
 
-                if (lastModResult.HasValue == true) // 存在余数, 计算小数点后的值
+                if (lastModResult.HasValue == true && lastModResult.Value > 0) // 存在余数, 计算小数点后的值
                 {
                     decimal right = decimal.Parse(lastModResult.Value.ToString()) / 1024M;
                     string rightStr = right.ToString();
@@ -158,7 +158,14 @@ namespace Util.IO
             else
             {
                 long modResult = fileLen % 1024L;
-                return GetFileLengthInfo(fileLen / 1024L, level + 1, modResult);
+                if (modResult > 0)
+                {
+                    return GetFileLengthInfo(fileLen / 1024L, level + 1, modResult);
+                }
+                else
+                {
+                    return GetFileLengthInfo(fileLen / 1024L, level + 1, null);
+                }
             }
         }
     }
