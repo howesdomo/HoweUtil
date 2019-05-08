@@ -23,12 +23,12 @@ namespace Util.IO
             }
 
             string finalPath = Path.Combine
-                (
-                    currentDirectory,
-                    "Temp",
-                    "DeleteAfterRead",
-                    "{0}{1}".FormatWith(Guid.NewGuid().ToString(), new FileInfo(filePath).Extension)
-                );
+            (
+                currentDirectory,
+                "Temp",
+                "DeleteAfterRead",
+                "{0}{1}".FormatWith(Guid.NewGuid().ToString(), new FileInfo(filePath).Extension)
+            );
 
             FileInfo fi = new FileInfo(finalPath);
 
@@ -44,6 +44,7 @@ namespace Util.IO
                 byte[] byteArry = new byte[filestream.Length];
                 filestream.Read(byteArry, 0, byteArry.Length);
                 base64Str = Convert.ToBase64String(byteArry);
+                // 亦可以采用 base64Str = byteArry.ToBase64String();
             }
 
             File.Delete(finalPath);
@@ -104,6 +105,8 @@ namespace Util.IO
             {
                 filestream.Write(byteArray, 0, byteArray.Length);
             }
+
+            //亦可采用 byteArray.Save(filePath); // ByteExtension 的 Save 方法
         }
 
         /// <summary>
@@ -112,11 +115,13 @@ namespace Util.IO
         /// <param name="fileLen">文件大小长度</param>
         /// <param name="level">当前等级</param>
         /// <returns>返回文件大小信息</returns>
-        public static string GetFileLengthInfo(long fileLen, int level = 1)
+        public static string GetFileLengthInfo(long fileLen, int level = 1, long? lastModResult = null)
         {
             if (fileLen < 1024L)
             {
                 string template = string.Empty;
+                string numberStr = string.Empty; // 数值
+
                 switch (level)
                 {
                     case 1: template = "{0} B"; break;
@@ -126,11 +131,34 @@ namespace Util.IO
                     case 5: template = "{0} TB"; break;
                     default: break;
                 }
-                return template.FormatWith(fileLen);
+
+                if (lastModResult.HasValue == true) // 存在余数, 计算小数点后的值
+                {
+                    decimal right = decimal.Parse(lastModResult.Value.ToString()) / 1024M;
+                    string rightStr = right.ToString();
+                    string rightInfo = string.Empty;
+                    if (rightStr.Length >= 4)
+                    {
+                        rightInfo = rightStr.Substring(2, 2);
+                    }
+                    else
+                    {
+                        rightInfo = rightStr.Substring(2);
+                    }
+
+                    numberStr = "{0}.{1}".FormatWith(fileLen, rightInfo);
+                }
+                else
+                {
+                    numberStr = fileLen.ToString();
+                }
+
+                return template.FormatWith(numberStr);
             }
             else
             {
-                return GetFileLengthInfo(fileLen / 1024L, level + 1);
+                long modResult = fileLen % 1024L;
+                return GetFileLengthInfo(fileLen / 1024L, level + 1, modResult);
             }
         }
     }
