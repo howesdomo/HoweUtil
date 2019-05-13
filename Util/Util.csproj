@@ -142,6 +142,9 @@
     <Compile Include="UIComponent\BaseCollection.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="WebServiceModel\SOAPResult.cs" />
+    <Compile Include="Web\TcpClientUtils\TcpClientExtension.cs" />
+    <Compile Include="Web\TcpClientUtils\TcpClientModel.cs" />
+    <Compile Include="Web\TcpClientUtils\TcpClientUtils.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\IPAddressModel.cs" />
     <Compile Include="Web\IPAddressUtils.cs" />
