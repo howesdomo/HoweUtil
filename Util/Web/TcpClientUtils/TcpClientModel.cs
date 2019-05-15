@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Util.Web
 {
-    public class SocketModel
+    public class TcpClientModel
     {
-        public SocketModel()
+        public TcpClientModel()
         {
 
         }
-        public SocketModel(byte[] c)
+        public TcpClientModel(byte[] c)
         {
             this.Content = c;
         }

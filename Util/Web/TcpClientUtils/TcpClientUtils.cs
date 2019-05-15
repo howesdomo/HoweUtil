@@ -157,7 +157,7 @@ namespace Util.Web
             }
 
             // 发送
-            SocketModel socketModel = new Util.Web.SocketModel(strBuffer);
+            TcpClientModel socketModel = new Util.Web.TcpClientModel(strBuffer);
             byte[] buffer = socketModel.ToByteArray();
             ns.Write(buffer, 0, buffer.Length);
 
