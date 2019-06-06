@@ -19,7 +19,7 @@ namespace System.Net.Sockets
         }
 
         /// <summary>
-        /// 发送
+        /// 发送 ( 转换为 TcpClientModel )
         /// </summary>
         /// <param name="tcpClient"></param>
         /// <param name="toSend">发送内容</param>
@@ -27,6 +27,17 @@ namespace System.Net.Sockets
         public static void Send(this System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
         {
             Util.Web.TcpClientUtils.Send(tcpClient, toSend, encoding);
+        }
+
+        /// <summary>
+        /// 发送 ( 简单直接发送, 不转换为 TcpClientModel )
+        /// </summary>
+        /// <param name="tcpClient"></param>
+        /// <param name="toSend">发送内容</param>
+        /// <param name="encoding">默认UTF-8</param>
+        public static void SimpleSend(this System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
+        {
+            Util.Web.TcpClientUtils.SimpleSend(tcpClient, toSend, encoding);
         }
     }
 }

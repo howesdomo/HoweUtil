@@ -163,5 +163,43 @@ namespace Util.Web
 
             buffer = null;
         }
+
+        /// <summary>
+        /// 发送, 不采用接收验证长度方式进行发送
+        /// </summary>
+        /// <param name="tcpClient"></param>
+        /// <param name="toSend">发送内容</param>
+        /// <param name="encoding">默认UTF-8</param>
+        public static void SimpleSend(System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
+        {
+            if (tcpClient == null)
+            {
+                return;
+            }
+
+            if (tcpClient.Connected == false)
+            {
+                return;
+            }
+
+            System.Net.Sockets.NetworkStream ns = tcpClient.GetStream();
+
+            // 内容转换
+            byte[] strBuffer = null;
+            if (encoding != null)
+            {
+                strBuffer = encoding.GetBytes(toSend);
+            }
+            else
+            {
+                strBuffer = Encoding.UTF8.GetBytes(toSend);
+            }
+
+            // 发送
+            byte[] buffer = strBuffer;
+            ns.Write(buffer, 0, buffer.Length);
+
+            buffer = null;
+        }
     }
 }
