@@ -34,7 +34,7 @@ namespace Util
                     cmd = conn.CreateCommand();
                 }
 
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = argCommandType;
                 cmd.CommandText = commandText;
 
                 if (paramsList != null && paramsList.Count > 0)
@@ -66,7 +66,7 @@ namespace Util
             SqlCommand cmd = tran.Connection.CreateCommand();
             cmd.Transaction = tran;
 
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = argCommandType;
             cmd.CommandText = commandText;
 
             if (paramsList != null && paramsList.Count > 0)
