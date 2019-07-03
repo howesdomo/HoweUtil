@@ -99,6 +99,7 @@
     <Compile Include="IPAddressUtils_UnitTest.cs" />
     <Compile Include="RSAUtils_Test.cs" />
     <Compile Include="UnitTest1.cs" />
+    <Compile Include="Util\DateTimeUtils_UnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Util\Util.csproj">
