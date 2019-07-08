@@ -7,6 +7,29 @@ namespace Util.IO
 {
     public static class SerialPortUtil
     {
+        public static List<string> GetPortNameList()
+        {
+            List<PortName> l = new List<PortName>();
+            foreach (var item in System.IO.Ports.SerialPort.GetPortNames())
+            {
+                PortName toAdd = new PortName();
+                toAdd.Value = item.ToUpper();
+                string tempValue = item.Replace("COM", "");
+                int temp = 0;
+                if (int.TryParse(tempValue, out temp))
+                {
+                    toAdd.Seq = temp;
+                }
+                else
+                {
+                    toAdd.Seq = 999;
+                }
+                l.Add(toAdd);
+            }
+
+            return l.OrderBy(i => i.Seq).Select(i => i.Value).ToList();
+        }
+
         #region BaudRate - 波特率
 
         public static List<BaudRate> GetBaudRateList()
@@ -117,6 +140,21 @@ namespace Util.IO
         }
 
         #endregion
+    }
+
+    public class PortName
+    {
+        public string Value { get; set; }
+
+        /// <summary>
+        /// 用于排序
+        /// </summary>
+        public int Seq { get; set; }
+
+        /// <summary>
+        /// 用于由字符串转换位int
+        /// </summary>
+        public string TempSeq { get; set; }
     }
 
     /// <summary>
