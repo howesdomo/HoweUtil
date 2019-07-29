@@ -267,7 +267,7 @@ namespace Util
                 // -o : o+ (覆盖已存在文件); o- (不覆盖已存在文件)
                 // -m<0..5> : 设置压缩级别(0-存储...3-默认...5-最大)
                 // -r : 递归子目录，若指定的是文件，压缩所有子目录中同名的文件
-                string arguments = "a -ep1 -r -m{0}{1} {2} {3}".FormatWith
+                string arguments = "a -ep1 -r -m{0}{1} \"{2}\" \"{3}\"".FormatWith
                 (
                     level,
                     password.IsNullOrEmpty() == true ? "" : " -p" + password,
@@ -303,7 +303,7 @@ namespace Util
 
             try
             {
-                string arguments = "x -o{0}{1} {2} {3}".FormatWith
+                string arguments = "x -o{0}{1} \"{2}\" \"{3}\"".FormatWith
                 (
                     password == null ? "" : " -p" + password,
                     rarFilePath,
