@@ -171,13 +171,52 @@ namespace Util.Web
             buffer = null;
         }
 
+        #region 标准接收&发送
+
         /// <summary>
-        /// 发送, 不采用接收验证长度方式进行发送
+        /// 标准接收
+        /// </summary>
+        /// <param name="tcpClient"></param>
+        /// <param name="encoding">默认UTF8</param>
+        /// <returns></returns>
+        public static string StandardReceive(System.Net.Sockets.TcpClient tcpClient, System.Text.Encoding encoding = null)
+        {
+            using (System.IO.MemoryStream msContent = new System.IO.MemoryStream())
+            {
+                int totalBytesRead = 0; // 读取总长度 由于发送的内容没有任何定位规则, 只能读取到 Buff 缓存的长度
+
+                byte[] buffOfNetworkStream = new byte[s_BufferSize];
+                int lastestBytesRead = 0; // 当前读取总长度
+
+                System.Net.Sockets.NetworkStream networkStream = tcpClient.GetStream();
+
+                lastestBytesRead = networkStream.Read(buffOfNetworkStream, 0, s_BufferSize);
+                totalBytesRead = totalBytesRead + lastestBytesRead;
+
+                string r = string.Empty;
+                if (encoding != null)
+                {
+                    r = encoding.GetString(buffOfNetworkStream, 0, buffOfNetworkStream.Length);
+                }
+                else
+                {
+                    r = Encoding.UTF8.GetString(buffOfNetworkStream, 0, buffOfNetworkStream.Length);
+                    r = r.Trim('\0');
+                }
+
+                // 释放
+                networkStream = null;
+                return r;
+            }
+        }
+
+        /// <summary>
+        /// 标准发送
         /// </summary>
         /// <param name="tcpClient"></param>
         /// <param name="toSend">发送内容</param>
         /// <param name="encoding">默认UTF-8</param>
-        public static void SimpleSend(System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
+        public static void StandardSend(System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
         {
             if (tcpClient == null)
             {
@@ -202,11 +241,11 @@ namespace Util.Web
                 strBuffer = Encoding.UTF8.GetBytes(toSend);
             }
 
-            // 发送
-            byte[] buffer = strBuffer;
-            ns.Write(buffer, 0, buffer.Length);
+            ns.Write(strBuffer, 0, strBuffer.Length);
 
-            buffer = null;
+            strBuffer = null;
         }
+
+        #endregion
     }
 }

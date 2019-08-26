@@ -115,6 +115,7 @@
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\ExceptionExtension.cs" />
     <Compile Include="GZipUtils.cs" />
+    <Compile Include="IO\FileInfoExtension.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
     <Compile Include="JsonUtils.cs" />

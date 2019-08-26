@@ -30,14 +30,25 @@ namespace System.Net.Sockets
         }
 
         /// <summary>
-        /// 发送 ( 简单直接发送, 不转换为 TcpClientModel )
+        /// 标准接收
+        /// </summary>
+        /// <param name="tcpClient"></param>
+        /// <param name="encoding">默认UTF8</param>
+        /// <returns></returns>
+        public static string StandardReceive(this System.Net.Sockets.TcpClient tcpClient, System.Text.Encoding encoding = null)
+        {
+            return Util.Web.TcpClientUtils.StandardReceive(tcpClient, encoding);
+        }
+
+        /// <summary>
+        /// 标准发送
         /// </summary>
         /// <param name="tcpClient"></param>
         /// <param name="toSend">发送内容</param>
         /// <param name="encoding">默认UTF-8</param>
-        public static void SimpleSend(this System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
+        public static void StandardSend(this System.Net.Sockets.TcpClient tcpClient, string toSend, System.Text.Encoding encoding = null)
         {
-            Util.Web.TcpClientUtils.SimpleSend(tcpClient, toSend, encoding);
+            Util.Web.TcpClientUtils.StandardSend(tcpClient, toSend, encoding);
         }
     }
 }
