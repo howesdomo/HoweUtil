@@ -82,9 +82,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Util">
-      <HintPath>..\Util\bin\Debug\Util.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OCRUtils_Baidu.cs" />
@@ -93,6 +90,12 @@
   <ItemGroup>
     <None Include="AipSdk.dll" />
     <None Include="Newtonsoft.Json.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Util\Util.HowesDOMO.csproj">
+      <Project>{3363da83-f692-4367-b905-062451aca009}</Project>
+      <Name>Util.HowesDOMO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

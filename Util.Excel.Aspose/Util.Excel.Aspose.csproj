@@ -86,9 +86,9 @@
     <Folder Include="DLL\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Util\Util.csproj">
+    <ProjectReference Include="..\Util\Util.HowesDOMO.csproj">
       <Project>{3363da83-f692-4367-b905-062451aca009}</Project>
-      <Name>Util</Name>
+      <Name>Util.HowesDOMO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
