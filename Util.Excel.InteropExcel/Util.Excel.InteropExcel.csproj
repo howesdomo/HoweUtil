@@ -90,6 +90,9 @@
     <Content Include="V3版本设计ExcelUtil_InteropExcel的依据.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Util.HowesDOMO\Util.HowesDOMO.csproj">
       <Project>{3363da83-f692-4367-b905-062451aca009}</Project>
       <Name>Util.HowesDOMO</Name>
