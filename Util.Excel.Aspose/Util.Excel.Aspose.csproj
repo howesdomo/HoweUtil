@@ -80,11 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelUtils_Aspose.cs" />
+    <Compile Include="ExcelUtils_Aspose_V_1_0_0_1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DLL\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -93,6 +92,14 @@
       <Project>{3363da83-f692-4367-b905-062451aca009}</Project>
       <Name>Util.HowesDOMO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DLL\Aspose.Cells.dll" />
+    <None Include="DLL\Aspose.Cells_18.12.0.dll" />
+    <None Include="DLL\Aspose.Cells_19.5.0.dll" />
+    <None Include="DLL\Aspose.Cells_4.5.1.dll" />
+    <None Include="DLL\Aspose.Cells_8.6.3.dll" />
+    <None Include="DLL\Aspose.Cells_9.0.0_Crack.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

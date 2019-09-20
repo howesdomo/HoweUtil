@@ -19,9 +19,39 @@ namespace Util.Excel
     /// </summary>
     public class SheetReadConfig
     {
+        public SheetReadConfig()
+        {
+            this.IsContainColumnHeader = true;
+        }
+
         public int? SheetIndex { get; set; }
 
         public string SheetName { get; set; }
+
+
+
+        /// <summary>
+        /// 是否含有列定义行，默认true
+        /// </summary>
+        public bool IsContainColumnHeader { get; set; }
+
+        /// <summary>
+        /// 列定义行 首位 RowIndex
+        /// </summary>
+        public int StartCellRowIndex { get; set; }
+
+        /// <summary>
+        /// 列定义行 首位 ColumnIndex
+        /// </summary>
+        public int StartCellColumnIndex { get; set; }
+
+        /// <summary>
+        /// 检测到重复的列名不进行报错，默认false
+        /// </summary>
+        public bool IgnoreRepeatColumnHeaderName { get; set; }
+
+
+
 
         /// <summary>
         /// 指定特殊的单元格读取规则
@@ -39,5 +69,5 @@ namespace Util.Excel
     }
 
 
-    
+
 }
