@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace Util
 {
@@ -205,11 +205,6 @@ namespace Util
             return result;
         }
 
-        //public static SqlParameter GetSqlParameter(string name, bool value)
-        //{
-        //    return new SqlParameter(name, value);
-        //}
-
         public static SqlParameter GetSqlParameter(string name, bool? value)
         {
             if (value.HasValue == false)
@@ -267,5 +262,5 @@ namespace Util
             }
             return r;
         }
-    }    
+    }
 }

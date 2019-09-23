@@ -64,13 +64,6 @@ namespace Util.Web
                 lastestBytesRead = networkStream.Read(buffOfNetworkStream, 0, s_BufferSize);
                 totalBytesRead = totalBytesRead + lastestBytesRead;
 
-                // 用于没有特殊校验的返回结果
-                // TODO 结果输出到UI
-                // TODO UI提供选择解释的Encoding
-                string simpleReceiveMsg = System.Text.Encoding.UTF8.GetString(buffOfNetworkStream);
-                string msg = "接收信息\r\n{0}".FormatWith(simpleReceiveMsg);
-                System.Diagnostics.Debug.WriteLine(msg);
-
                 // 定位 StartChar
                 for (int i = 0; i < buffOfNetworkStream.Length; i++)
                 {

@@ -1,11 +1,47 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Util.WebServiceModel
+namespace Util.WebService
 {
+    [Serializable]
+    public class RequestData
+    {
+        public RequestData()
+        {
+
+        }
+
+        public string MethodName { get; set; }
+
+        public List<string> JsonArgs { get; set; }
+
+        /// <summary>
+        /// 压缩过的参数
+        /// </summary>
+        public bool IsCompress { get; set; }
+
+        /// <summary>
+        /// 压缩的方式
+        /// GZip
+        /// </summary>
+        public string CompressType { get; set; }
+
+        /// <summary>
+        /// 加密过的参数
+        /// </summary>
+        public bool IsEncrypt { get; set; }
+
+        /// <summary>
+        /// 加密的方式
+        /// DES
+        /// RSA
+        /// </summary>
+        public string EncryptType { get; set; }
+    }
+
+    [Serializable]
     public class SOAPResult
     {
         public SOAPResult()
@@ -41,8 +77,33 @@ namespace Util.WebServiceModel
         public string ReturnObjectJson { get; set; }
 
         #endregion
+
+
+        /// <summary>
+        /// 压缩过的ReturnObjectJson
+        /// </summary>
+        public bool IsCompress { get; set; }
+
+        /// <summary>
+        /// 压缩的方式
+        /// GZip
+        /// </summary>
+        public string CompressType { get; set; }
+
+        /// <summary>
+        /// 加密过的ReturnObjectJson
+        /// </summary>
+        public bool IsEncrypt { get; set; }
+
+        /// <summary>
+        /// 加密的方式
+        /// DES
+        /// RSA
+        /// </summary>
+        public string EncryptType { get; set; }
     }
 
+    [Serializable]
     public static class SOAPResultExtension
     {
 
@@ -52,7 +113,7 @@ namespace Util.WebServiceModel
             r.IsSuccess = true;
             if (data != null)
             {
-                r.ReturnObjectJson = JsonConvert.SerializeObject(data);
+                r.ReturnObjectJson = JsonUtils.SerializeObject(data);
             }
         }
 

@@ -19,7 +19,7 @@ namespace System.Net.Sockets
         }
 
         /// <summary>
-        /// 发送 ( 转换为 TcpClientModel )
+        /// 发送
         /// </summary>
         /// <param name="tcpClient"></param>
         /// <param name="toSend">发送内容</param>

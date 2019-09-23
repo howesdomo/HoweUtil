@@ -87,7 +87,7 @@
     <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
-    <Compile Include="CommonExtensions\String.cs" />
+    <Compile Include="CommonExtensions\StringExtension.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
@@ -140,10 +140,9 @@
     <Compile Include="OCR\OCRModel.cs" />
     <Compile Include="ProgressUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TxtWriter.cs" />
     <Compile Include="UIComponent\BaseCollection.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
-    <Compile Include="WebServiceModel\SOAPResult.cs" />
+    <Compile Include="WebService\WebServiceModel.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientExtension.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientModel.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientUtils.cs" />
