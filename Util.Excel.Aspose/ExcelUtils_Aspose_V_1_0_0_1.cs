@@ -269,7 +269,7 @@ namespace Util.Excel
         /// <returns>DataSet 结果集</returns>
         public static DataSet Excel2DataSet(string filePath, ExcelReaderConfig config = null)
         {
-            // TODO 完善此方法读取数据部分
+            // TO___DO 完善此方法读取数据部分
 
             DataSet result = new DataSet();
 
@@ -315,7 +315,7 @@ namespace Util.Excel
                         continue;
                     }
 
-                    bool isFirstRowDefineColumn = true; // TODO 加一个配置 定义第一行是否列定义行
+                    bool isFirstRowDefineColumn = true; // TO___DO 加一个配置 定义第一行是否列定义行
 
                     #region 表头
 
@@ -353,7 +353,7 @@ namespace Util.Excel
                     //{
                     //    DataRow dr = dt.NewRow();
                     //    bool rowHasValue = false; // TODO : 遇到空行 计数问题未解决
-                    //    // TODO : 计算行号
+                    //    // TO__DO : 计算行号
                     //    foreach (int j in columns)
                     //    {
                     //        if (sheet.GetRow(i) != null && sheet.GetRow(i).GetCell(j) != null)
@@ -418,7 +418,7 @@ namespace Util.Excel
                     //            }
                     //            else
                     //            {
-                    //                // TODO : 读取日期Cell问题仍需解决
+                    //                // TO___DO : 读取日期Cell问题仍需解决
                     //                dr[j] = NPOIHelper.GetValueType(sheet.GetRow(i).GetCell(j) as ICell);
                     //                if (rowHasValue != true && dr[j] != null && dr[j].ToString() != string.Empty)
                     //                {

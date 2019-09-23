@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonExtensions\ByteExtension.cs" />
+    <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\String.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
