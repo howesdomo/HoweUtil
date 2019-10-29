@@ -6,6 +6,10 @@ using System.Text;
 
 namespace Util.UIComponent
 {
+    /// <summary>
+    /// V 1.0.1
+    /// 简化 PropertyChanged 代码
+    /// </summary>
     public abstract class VirtualModel : INotifyPropertyChanged
     {
         public VirtualModel()
@@ -98,6 +102,8 @@ namespace Util.UIComponent
         #endregion
 
         #region Property Changed
+        // 由于 .net framework 4.0 未有 System.Runtime.CompilerServices.CallerMemberName
+        // 故此处代码与 HoweStandardUtil 中有区别
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -108,10 +114,7 @@ namespace Util.UIComponent
 
         protected void OnPropertyChanged(object sender, string name)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(sender, new PropertyChangedEventArgs(name));
-            }
+            this.PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(name));
         }       
 
         #endregion
