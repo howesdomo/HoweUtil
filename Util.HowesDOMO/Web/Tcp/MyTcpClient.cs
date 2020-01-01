@@ -8,6 +8,18 @@ using System.Threading.Tasks;
 namespace Util.Web
 {
     /// <summary>
+    /// V 1.0.6
+    /// 1 增加属性 IsConnectServer
+    /// 2 修复BUG 当服务器未开启服务时, 执行 Start() 方法报错捕获
+    /// 3 同步接收信息时候 和 状态日志时间
+    /// 4 修复BUG, 在标准接收状态下, 当服务器停止服务后, 没有判断服务器状态, 导致不停接收空信息
+    /// 
+    /// V 1.0.5
+    /// 优化标准接收时清理空出来的Byte
+    /// 
+    /// V 1.0.4
+    /// 修复Bug：服务端停止服务, 客户端的接收方法没有处理抛出来的异常导致接收卡死
+    /// 
     /// V 1.0.3
     /// 取消有关 Xamarin.Forms 的代码 ( 删除 Xamarin.Essentials.MainThread.BeginInvokeOnMainThread ), 使本类可以更好地迁移到 .net Standard 上
     /// 
@@ -41,6 +53,22 @@ namespace Util.Web
 
         TcpClient mTcpClient { get; set; }
 
+        /// <summary>
+        /// 已连接服务器
+        /// </summary>
+        public bool IsConnectServer // TODO 去掉
+        {
+            get
+            {
+                bool r = false;
+                if (mTcpClient != null && mTcpClient.Client.IsConnectedAdv() == true)
+                {
+                    r = true;
+                }
+                return r;
+            }
+        }
+
         // 创建接收消息的线程
         Task mTaskReceive { get; set; }
 
@@ -66,62 +94,72 @@ namespace Util.Web
         public void Start(string argsIP, string argsPort)
         {
             Stop();
-
-            IPAddress ip = IPAddress.Parse(argsIP);
-            int port = Convert.ToInt32(argsPort);
-
             string msg = string.Empty;
 
-            mServerHeadInfo = $"服务器地址({ip}:{port})";
-            msg = $"{mServerHeadInfo}: MyTcpClient正在启动...";
-            onStatusChange(msg);
-
-            // 连接服务端
-            mTcpClient = new TcpClient();
-            mContinue = true;
-            mTcpClient.Connect(ip, port); // 开始侦听
-
-            msg = $"Client : Server Connected!\r\n Local:{mTcpClient.Client.LocalEndPoint} --> Server:{mTcpClient.Client.RemoteEndPoint}";
-            onStatusChange(msg);
-
-            //开启线程不停的接收服务端发送的数据
-            // mTaskReceive = new Task(() => ReceiveSync()); // 同步
-            mTaskReceive = new Task(() => ReceiveAsync()); // 异步
-
-            mTaskReceive.ContinueWith((task) =>
+            try
             {
-                if (task.Exception != null)
+                IPAddress ip = IPAddress.Parse(argsIP);
+                int port = Convert.ToInt32(argsPort);
+
+                mServerHeadInfo = $"服务器地址({ip}:{port})";
+                msg = $"{mServerHeadInfo}: MyTcpClient正在启动...";
+                onStatusChange(msg);
+
+                // 连接服务端
+                mTcpClient = new TcpClient();
+                mContinue = true;
+                mTcpClient.Connect(ip, port); // 开始侦听
+
+                msg = $"Client : Server Connected!\r\n Local:{mTcpClient.Client.LocalEndPoint} --> Server:{mTcpClient.Client.RemoteEndPoint}";
+                onStatusChange(msg);
+
+                //开启线程不停的接收服务端发送的数据
+                // mTaskReceive = new Task(() => ReceiveSync()); // 同步
+                mTaskReceive = new Task(() => ReceiveAsync()); // 异步
+
+                mTaskReceive.ContinueWith((task) =>
                 {
-                    onStatusChange($"{task.Exception.GetFullInfo()}", Util.UIModel.ConsoleMsgType.ERROR);
-                    System.Diagnostics.Debugger.Break();
+                    if (task.Exception != null)
+                    {
+                        onStatusChange($"{task.Exception.GetFullInfo()}", Util.UIModel.ConsoleMsgType.ERROR);
+                        System.Diagnostics.Debugger.Break();
+                    }
+
+                    string taskListenMsg = "服务已完成，完成时状态为：";
+                    taskListenMsg = taskListenMsg + string.Format("IsCanceled={0}\nIsCompleted={1}\nIsFaulted={2};",
+                                        task.IsCanceled,  // 因被取消而完成
+                                        task.IsCompleted, // 成功完成
+                                        task.IsFaulted    // 因发生异常而完成
+                                        );
+
+                    System.Diagnostics.Debug.WriteLine(taskListenMsg);
+                    onStatusChange($"{mServerHeadInfo}: 监听服务已停止");
+                });
+
+                if (mCharStartErrorList != null)
+                {
+                    mCharStartErrorList.Clear();
+                    mCharStartErrorList = null;
                 }
+                mCharStartErrorList = new List<DateTime>();
 
-                string taskListenMsg = "服务已完成，完成时状态为：";
-                taskListenMsg = taskListenMsg + string.Format("IsCanceled={0}\nIsCompleted={1}\nIsFaulted={2};",
-                                    task.IsCanceled,  // 因被取消而完成
-                                    task.IsCompleted, // 成功完成
-                                    task.IsFaulted    // 因发生异常而完成
-                                    );
-
-                System.Diagnostics.Debug.WriteLine(taskListenMsg);
-                onStatusChange($"{mServerHeadInfo}: 监听服务已停止");
-            });
-
-            if (mCharStartErrorList != null)
-            {
-                mCharStartErrorList.Clear();
-                mCharStartErrorList = null;
+                mTaskReceive.Start();
             }
-            mCharStartErrorList = new List<DateTime>();
+            catch (Exception ex)
+            {
+                mContinue = false;
+                mTcpClient = null;
 
-            mTaskReceive.Start();
+                msg = $"捕获异常:{ex.GetFullInfo()}";
+                onStatusChange(msg, UIModel.ConsoleMsgType.ERROR);
+            }
         }
 
         public void Stop()
         {
             onStatusChange($"正在停止TcpClient");
 
-            if (IsConnected == true)
+            if (this.IsConnectServer == true)
             {
                 mContinue = false;
                 mTcpClient.Client.Close();
@@ -129,19 +167,6 @@ namespace Util.Web
 
             mTcpClient = null;
             onStatusChange($"已成功停止TcpClient");
-        }
-
-        public bool IsConnected
-        {
-            get
-            {
-                bool r = false;
-                if (this.mTcpClient != null && this.mTcpClient.Connected == true) // TODO 是否能够真的确认到
-                {
-                    r = true;
-                }
-                return r;
-            }
         }
 
         /// <summary>
@@ -154,8 +179,9 @@ namespace Util.Web
                 try
                 {
                     string receiveMsg = mTcpClient.Receive(); // 自定义扩展方法
-                    onStatusChange($"接收到的信息:{receiveMsg}");
-                    onReceiveText(receiveMsg);
+                    DateTime receiveDateTime = DateTime.Now;
+                    onStatusChange(msg: $"接收到的信息:{receiveMsg}", entryTime: receiveDateTime);
+                    onReceiveText(new TcpXxxEventArgs(receiveMsg, mTcpClient.Client.RemoteEndPoint.ToString(), receiveDateTime));
                 }
                 catch (System.IO.IOException ioException)
                 {
@@ -283,8 +309,14 @@ namespace Util.Web
                 // 由于无法提前知晓信息长度, 故需要处理多出来的 \0
                 r = r.Trim('\0');
 
-                onStatusChange($"接收到信息: 信息长度{r.Length}", Util.UIModel.ConsoleMsgType.INFO);
-                onReceiveText(r);
+                if (r.IsNullOrWhiteSpace() == true && mTcpClient.Client.IsConnectedAdv() == false)
+                {
+                    throw new Exception("与服务器已断开连接（可能是服务端已停止服务）");
+                }
+
+                DateTime receiveDateTime = DateTime.Now;
+                onStatusChange(msg: $"接收到信息: 信息长度{r.Length}", consoleMsgType: Util.UIModel.ConsoleMsgType.INFO, entryTime: receiveDateTime);
+                onReceiveText(new TcpXxxEventArgs(r, mTcpClient.Client.RemoteEndPoint.ToString(), receiveDateTime));
 
                 networkStream = null;
 
@@ -313,9 +345,9 @@ namespace Util.Web
                     mContinue = false;
                     onStatusChange("与服务器已断开连接（可能是服务端已停止服务）", Util.UIModel.ConsoleMsgType.ERROR);
                 }
-                else 
+                else
                 {
-                    onStatusChange(e.GetFullInfo(), Util.UIModel.ConsoleMsgType.ERROR);                
+                    onStatusChange(e.GetFullInfo(), Util.UIModel.ConsoleMsgType.ERROR);
                 }
             }
             finally
@@ -396,8 +428,9 @@ namespace Util.Web
 
                 r = r.Substring(0, endCharIndex);
 
-                onStatusChange($"接收到信息: 信息长度{r.Length}", Util.UIModel.ConsoleMsgType.INFO);
-                onReceiveText(r);
+                DateTime receiveDateTime = DateTime.Now;
+                onStatusChange(msg: $"接收到信息: 信息长度{r.Length}", consoleMsgType: Util.UIModel.ConsoleMsgType.INFO, entryTime: receiveDateTime);
+                onReceiveText(new TcpXxxEventArgs(r, mTcpClient.Client.RemoteEndPoint.ToString(), receiveDateTime));
 
                 networkStream = null;
 
@@ -429,7 +462,7 @@ namespace Util.Web
                 {
                     onStatusChange(e.GetFullInfo(), Util.UIModel.ConsoleMsgType.ERROR);
                 }
-                
+
             }
             finally
             {
@@ -441,7 +474,7 @@ namespace Util.Web
 
         public void Send(string sendContent)
         {
-            if (this.IsConnected == false)
+            if (this.IsConnectServer == false)
             {
                 return;
             }
@@ -452,7 +485,7 @@ namespace Util.Web
 
         public void StandardSend(string sendContent)
         {
-            if (this.IsConnected == false)
+            if (this.IsConnectServer == false)
             {
                 return;
             }
@@ -484,14 +517,14 @@ namespace Util.Web
 
         public EventHandler<TcpXxxStatusChangeEventArgs> StatusChange;
 
-        private void onStatusChange(string msg, Util.UIModel.ConsoleMsgType consoleMsgType = Util.UIModel.ConsoleMsgType.INFO)
+        private void onStatusChange(string msg, Util.UIModel.ConsoleMsgType consoleMsgType = Util.UIModel.ConsoleMsgType.INFO, DateTime? entryTime = null)
         {
             System.Diagnostics.Debug.WriteLine(msg);
 
             bool isConnect = mTcpClient != null;
             int linkClientListCount = 0;
 
-            var args = new TcpXxxStatusChangeEventArgs(isConnect, linkClientListCount, consoleMsgType, msg);
+            var args = new TcpXxxStatusChangeEventArgs(isConnect, linkClientListCount, consoleMsgType, msg, entryTime.HasValue ? entryTime.Value : DateTime.Now);
             StatusChange?.Invoke(this, args);
         }
 
@@ -501,9 +534,9 @@ namespace Util.Web
 
         public EventHandler<TcpXxxEventArgs> ReceiveText;
 
-        private void onReceiveText(string msg)
+        private void onReceiveText(TcpXxxEventArgs args)
         {
-            ReceiveText?.Invoke(this, new TcpXxxEventArgs(msg));
+            ReceiveText?.Invoke(this, args);
         }
 
         #endregion

@@ -13,6 +13,8 @@ namespace Util.Web
     /// V 1.0.6
     /// 1 优化标准接收时清理空出来的Byte
     /// 2 增强校验, 发送信息前校验服务状态
+    /// 3 增加属性 IsServerStart
+    /// 4 同步接收信息时候 和 状态日志时间
     /// 
     /// V 1.0.5
     /// 在 .net framework 4.0 上测试, 根据测试时遇到的情况修改了对应的代码
@@ -54,6 +56,17 @@ namespace Util.Web
 
         //定义Socket对象
         TcpListener mTcpListener { get; set; }
+
+        /// <summary>
+        /// 服务已开启
+        /// </summary>
+        public bool IsServerStart
+        {
+            get
+            {
+                return mTcpListener != null;
+            }
+        }
 
         //定义监听线程
         Task mTaskListen { get; set; }
@@ -228,12 +241,12 @@ namespace Util.Web
                     return;
                 }
                 // 其他情况
-                else 
+                else
                 {
                     onStatusChange($"{ex.GetFullInfo()}", Util.UIModel.ConsoleMsgType.ERROR);
                     System.Diagnostics.Debugger.Break();
                     return;
-                }                
+                }
             }
 
             mTcpListen_AutoSetEvent.Set();
@@ -354,7 +367,11 @@ namespace Util.Web
                         {
                             receiveMsg = obj.TcpClient.Receive(mReceiveEncoding ?? Encoding.UTF8);
                         }
-                        onReceiveText(receiveMsg);
+
+                        DateTime receiveDateTime = DateTime.Now;
+                        onStatusChange($"从[{obj.TcpClient.Client.RemoteEndPoint}]接收到信息, 信息长度{receiveMsg.Length}, 信息内容:\r\n{receiveMsg}", Util.UIModel.ConsoleMsgType.INFO, receiveDateTime);
+                        onReceiveText(new TcpXxxEventArgs(receiveMsg, obj.TcpClient.Client.RemoteEndPoint.ToString(), receiveDateTime));
+
                         obj.TcpClient_AutoSetEvent.Set();
                     }
                     catch (Exception ex)
@@ -377,7 +394,7 @@ namespace Util.Web
 
         public void Send(string sendContent)
         {
-            if (mTcpListener == null)
+            if (this.IsServerStart == false)
             {
                 onStatusChange("Server服务未启动", UIModel.ConsoleMsgType.ERROR);
                 return;
@@ -401,7 +418,7 @@ namespace Util.Web
 
         public void StandardSend(string sendContent)
         {
-            if (mTcpListener == null)
+            if (this.IsServerStart == false)
             {
                 onStatusChange("Server服务未启动", UIModel.ConsoleMsgType.ERROR);
                 return;
@@ -509,7 +526,7 @@ namespace Util.Web
 
         public EventHandler<TcpXxxStatusChangeEventArgs> StatusChange;
 
-        private void onStatusChange(string msg, Util.UIModel.ConsoleMsgType consoleMsgType = Util.UIModel.ConsoleMsgType.INFO)
+        private void onStatusChange(string msg, Util.UIModel.ConsoleMsgType consoleMsgType = Util.UIModel.ConsoleMsgType.INFO, DateTime? entryTime = null)
         {
             System.Diagnostics.Debug.WriteLine(msg);
 
@@ -517,7 +534,14 @@ namespace Util.Web
             int linkClientListCount = 0;
             if (mRemoteClientLinkedList != null) { linkClientListCount = mRemoteClientLinkedList.Count; }
 
-            var args = new TcpXxxStatusChangeEventArgs(isConnect, linkClientListCount, consoleMsgType, msg);
+            var args = new TcpXxxStatusChangeEventArgs
+            (
+                isConnect,
+                linkClientListCount,
+                consoleMsgType,
+                msg,
+                entryTime.HasValue ? entryTime.Value : DateTime.Now
+            );
             StatusChange?.Invoke(this, args);
         }
 
@@ -527,11 +551,10 @@ namespace Util.Web
 
         public EventHandler<TcpXxxEventArgs> ReceiveText;
 
-        private void onReceiveText(string msg)
+        private void onReceiveText(TcpXxxEventArgs args)
         {
-            ReceiveText?.Invoke(this, new TcpXxxEventArgs(msg));
+            ReceiveText?.Invoke(this, args);
         }
-
         #endregion
     }
 

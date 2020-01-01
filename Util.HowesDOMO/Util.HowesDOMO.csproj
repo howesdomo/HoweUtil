@@ -144,9 +144,14 @@
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="UIModel\UcConsole\ConsoleMsgType.cs" />
     <Compile Include="WebService\WebServiceModel.cs" />
+    <Compile Include="Web\SocketExtension.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientExtension.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientModel.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientUtils.cs" />
+    <Compile Include="Web\Tcp\MyTcpClient.cs" />
+    <Compile Include="Web\Tcp\MyTcpServer.cs" />
+    <Compile Include="Web\Tcp\TcpXxxModel.cs" />
+    <Compile Include="Web\Tcp\TcpXxxStatusChangeEventArgs.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\IPAddressModel.cs" />
     <Compile Include="Web\IPAddressUtils.cs" />
