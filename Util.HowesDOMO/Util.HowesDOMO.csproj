@@ -106,6 +106,8 @@
     <Compile Include="Drawing\Printing\Printer.cs" />
     <Compile Include="Drawing\Printing\PrinterUtils.cs" />
     <Compile Include="EMailUtils.cs" />
+    <Compile Include="EventArgs\EventExtensions.cs" />
+    <Compile Include="EventArgs\EventArgs{T}.cs" />
     <Compile Include="Excel\ExcelCommonMethod.cs" />
     <Compile Include="Excel\ExcelUtilsExtension.cs" />
     <Compile Include="Excel\ExcelUtilsModel.cs" />
