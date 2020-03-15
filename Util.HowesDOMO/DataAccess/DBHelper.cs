@@ -55,6 +55,7 @@ namespace Util
             return r;
         }
 
+        // 使用事务时使用
         public static DataSet GetDataSet(
             SqlTransaction tran,
             string commandText,

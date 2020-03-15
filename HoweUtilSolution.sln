@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.OCR.Baidu", "Util.OCR.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.PDF.Aspose", "Util.PDF.Aspose\Util.PDF.Aspose.csproj", "{487099FE-B472-4500-AC2F-791E465CAB6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util.DBHelper.Oracle", "Util.DBHelper\Util.DBHelper.Oracle.csproj", "{844FABB3-185A-4C37-8AF7-53328C88D947}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,18 @@ Global
 		{487099FE-B472-4500-AC2F-791E465CAB6F}.Release|x64.Build.0 = Release|x64
 		{487099FE-B472-4500-AC2F-791E465CAB6F}.Release|x86.ActiveCfg = Release|x86
 		{487099FE-B472-4500-AC2F-791E465CAB6F}.Release|x86.Build.0 = Release|x86
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|x64.Build.0 = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Debug|x86.Build.0 = Debug|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|x64.ActiveCfg = Release|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|x64.Build.0 = Release|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|x86.ActiveCfg = Release|Any CPU
+		{844FABB3-185A-4C37-8AF7-53328C88D947}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
