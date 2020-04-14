@@ -447,6 +447,30 @@ namespace Util.Web
             onStatusChange($"Send:向 {countSendClient} 个客户端发送信息\r\n发送信息:{sendContent}");
         }
 
+        public void StandardSend(byte[] byteArr)
+        {
+            if (this.IsServerStart == false)
+            {
+                onStatusChange("Server服务未启动", UIModel.ConsoleMsgType.ERROR);
+                return;
+            }
+
+            int countSendClient = 0;
+            foreach (var item in mRemoteClientLinkedList)
+            {
+                var tcpClient = item.TcpClient;
+                if (tcpClient.Client.IsConnectedAdv() == false)
+                {
+                    return;
+                }
+
+                tcpClient.StandardSend(byteArr); // 自定义扩展方法
+                countSendClient = countSendClient + 1;
+            }
+            // onStatusChange($"Send:向 {countSendClient} 个客户端发送信息\r\n发送信息:{sendContent}"); // TODO
+            onStatusChange($"Send:向 {countSendClient} 个客户端发送信息\r\n发送信息"); // TODO
+        }
+
         #region 定时器
 
         System.Timers.Timer mTimer { get; set; }
