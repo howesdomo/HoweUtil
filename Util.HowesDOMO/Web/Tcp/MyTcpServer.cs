@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 namespace Util.Web
 {
     /// <summary>
+    /// V 1.0.8
+    /// StartServer 指定IP地址的情况下, 增加2个成功校验的情况 ( localhost 与 127.0.0.1 )
+    /// 
     /// V 1.0.7
     /// Receive 方法中增加对 Socket 状态的判断
     /// 
@@ -147,7 +150,14 @@ namespace Util.Web
 
                 if (ip == null)
                 {
-                    throw new ArgumentNullException($"输入IP地址有误。{argsIP} 不在 Dns.GetHostName() 返回结果中");
+                    if (argsIP == "localhost" || argsIP == "127.0.0.1")
+                    {
+                        ip = IPAddress.Parse(argsIP);
+                    }
+                    else 
+                    {
+                        throw new ArgumentNullException($"输入IP地址有误。{argsIP} 不在 Dns.GetHostName() 返回结果中");                    
+                    }
                 }
             }
 
