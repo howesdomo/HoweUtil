@@ -8,23 +8,80 @@ namespace Util.Drawing
 {
     public class DrawingUtils
     {
+        // Winform : Image -> Bitmap
+        // WPF     : ImageSource -> BitmapSource -> BitmapImage
         #region 格式转换
 
-        //public static void A()
-        //{
-        //    System.IO.MemoryStream ms = new System.IO.MemoryStream();
-        //    BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-        //    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)_imagesource));
-        //    encoder.Save(ms);
+        public static byte[] Image2ByteArr(System.Drawing.Image img, System.Drawing.Imaging.ImageFormat format = null)
+        {
+            using (var ms = new System.IO.MemoryStream())
+            {
+                if (format == null)
+                {
+                    format = System.Drawing.Imaging.ImageFormat.Bmp;
+                }
+                
+                img.Save(ms, format);
 
-        //    Bitmap bp = new Bitmap(ms);
-        //    ms.Close();
-        //}
+                return ms.ToArray();
+            }
+        }
 
-        //public static void B()
-        //{
-        //    BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        //}
+        public static System.Drawing.Image ByteArr2Image(byte[] byteArr)
+        {
+            using (var ms = new System.IO.MemoryStream(byteArr))
+            {
+                return System.Drawing.Image.FromStream(ms);
+            }
+        }
+
+        public static byte[] Bitmap2ByteArr(Bitmap b)
+        {
+            return DrawingUtils.Image2ByteArr(b);
+        }
+
+        public static System.Drawing.Bitmap ByteArr2Bitmap(byte[] bytes)
+        {
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+            {
+                return new System.Drawing.Bitmap(ms);
+            }
+        }
+
+        /// <summary>
+        /// BitmapSource(BitmapImage) 转换 System.Drawing.Bitmap
+        /// </summary>
+        /// <param name="bitmapSource">BitmapSource(BitmapImage) - WPF平台</param>
+        /// <returns>System.Drawing.Bitmap</returns>
+        public static Bitmap BitmapSource2Bitmap(System.Windows.Media.Imaging.BitmapSource bitmapSource)
+        {
+            using (System.IO.MemoryStream outStream = new System.IO.MemoryStream())
+            {
+                var enc = new System.Windows.Media.Imaging.BmpBitmapEncoder();
+                enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmapSource));
+                enc.Save(outStream);
+                Bitmap bitmap = new Bitmap(outStream);
+
+                return new Bitmap(bitmap);
+            }
+        }
+
+        /// <summary>
+        /// Bitmap 转换 BitmapSource(BitmapImage)
+        /// </summary>
+        /// <param name="bitmap">System.Drawing.Bitmap</param>
+        /// <returns>System.Windows.Media.Imaging.BitmapSource (BitmapImage) - WPF平台</returns>
+        public static System.Windows.Media.Imaging.BitmapSource Bitmap2BitmapSource(System.Drawing.Bitmap bitmap)
+        {
+            System.Windows.Media.Imaging.BitmapImage r = new System.Windows.Media.Imaging.BitmapImage();
+            r.BeginInit();
+            r.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            r.StreamSource = ms;
+            r.EndInit();
+            return r;
+        }
 
         #endregion
 

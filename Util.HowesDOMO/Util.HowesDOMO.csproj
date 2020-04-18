@@ -125,7 +125,8 @@
     <Compile Include="IO\FileInfoExtension.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
-    <Compile Include="JsonUtils.cs" />
+    <Compile Include="Json\JsonConverters\JsonConverter_System_Drawing_Point.cs" />
+    <Compile Include="Json\JsonUtils.cs" />
     <Compile Include="LBS\LBSInfo.cs" />
     <Compile Include="LBS\LBSPoint.cs" />
     <Compile Include="LBS\LBSUtils.cs" />
