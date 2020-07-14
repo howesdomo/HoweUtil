@@ -120,6 +120,8 @@
     <Compile Include="Excel\ExcelWriterConfig.cs" />
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\ExceptionExtension.cs" />
+    <Compile Include="Exception\ExceptionInfo.cs" />
+    <Compile Include="FontAwesomeUtils.cs" />
     <Compile Include="FontFamilyUtils.cs" />
     <Compile Include="GZipUtils.cs" />
     <Compile Include="IO\FileInfoExtension.cs" />
