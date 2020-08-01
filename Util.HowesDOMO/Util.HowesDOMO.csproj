@@ -90,6 +90,7 @@
     <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
+    <Compile Include="CommonExtensions\IListExtension.cs" />
     <Compile Include="CommonExtensions\StringExtension.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="UIComponent\BaseCollection.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="UIModel\UcConsole\ConsoleMsgType.cs" />
+    <Compile Include="WebDateTime.cs" />
     <Compile Include="WebService\WebServiceModel.cs" />
     <Compile Include="Web\SocketExtension.cs" />
     <Compile Include="Web\TcpClientUtils\TcpClientExtension.cs" />
