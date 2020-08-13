@@ -88,11 +88,14 @@
   <ItemGroup>
     <Compile Include="ActionUtils.cs" />
     <Compile Include="CommonExtensions\ByteExtension.cs" />
+    <Compile Include="CommonExtensions\CharExtension.cs" />
     <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\IListExtension.cs" />
     <Compile Include="CommonExtensions\StringExtension.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
+    <Compile Include="Comparer\MyStrLogicalComparer.cs" />
+    <Compile Include="Comparer\StrLogicalComparer.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
     <Compile Include="Cryptography\SHA1Utils.cs" />
