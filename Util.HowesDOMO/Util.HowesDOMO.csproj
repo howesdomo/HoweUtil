@@ -92,8 +92,10 @@
     <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\IListExtension.cs" />
+    <Compile Include="CommonExtensions\IQueryableExtension.cs" />
     <Compile Include="CommonExtensions\StringExtension.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
+    <Compile Include="CommonExtensions\TypeExtension.cs" />
     <Compile Include="Comparer\MyStrLogicalComparer.cs" />
     <Compile Include="Comparer\StrLogicalComparer.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="LBS\LocationTypeEnum.cs" />
     <Compile Include="Linq\Class1.cs" />
     <Compile Include="Linq\DictionaryExtension.cs" />
+    <Compile Include="Linq\LinqDynamicSortByExtension.cs" />
     <Compile Include="Linq\LinqOrderByExtension.cs" />
     <Compile Include="Linq\LinqToDataTable.cs" />
     <Compile Include="Linq\LinqToString.cs" />
