@@ -103,6 +103,7 @@
     <Compile Include="Cryptography\SHA1Utils.cs" />
     <Compile Include="DataAccess\CommonDal.cs" />
     <Compile Include="DataAccess\DBHelper.cs" />
+    <Compile Include="DataAccess\DBHelper_SQLServer.cs" />
     <Compile Include="DataAccess\NullableDateTimeArgs.cs" />
     <Compile Include="DataLogic\CommonBll.cs" />
     <Compile Include="DateTimeUtils.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Font\FontAwesomeUtils.cs" />
     <Compile Include="Font\FontFamilyUtils.cs" />
     <Compile Include="GZipUtils.cs" />
+    <Compile Include="IO\DirectoryUtils.cs" />
     <Compile Include="IO\FileInfoExtension.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\SerialPort.cs" />
