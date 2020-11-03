@@ -115,6 +115,7 @@
     <Compile Include="Drawing\Printing\PaperSize.cs" />
     <Compile Include="Drawing\Printing\Printer.cs" />
     <Compile Include="Drawing\Printing\PrinterUtils.cs" />
+    <Compile Include="Drawing\Printing\ZPLPrinter.cs" />
     <Compile Include="EMailUtils.cs" />
     <Compile Include="EventArgs\EventExtensions.cs" />
     <Compile Include="EventArgs\EventArgs{T}.cs" />
