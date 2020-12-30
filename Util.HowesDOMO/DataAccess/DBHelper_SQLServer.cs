@@ -8,6 +8,10 @@ using System.Data.SqlClient;
 namespace Util
 {
     /// <summary>
+    /// V 1.0.2 - 2020-12-30 15:04:36
+    /// 增加参数 TimeSpan? cmdTimeoutSeconds = null 控制超时时长, 默认空值。
+    /// cmdTimeoutSeconds 为 null 时 CommandTimeout 默认值为 30 秒
+    /// 
     /// V 1.0.1 - 2020-09-29 15:56:50
     /// 由于已修改 DBHelper 代码为支持多种关系型数据库的方式, 故原来的 DBHelper 更名为 DBHelper_SQLServer,
     /// 方便旧项目升级使用, 新项目应该直接使用 DBHelper 的形式
@@ -21,7 +25,8 @@ namespace Util
             List<SqlParameter> paramsList,
             bool isBeginTransaction = false,
             bool isRollbackForTest = false,
-            CommandType argCommandType = CommandType.StoredProcedure
+            CommandType argCommandType = CommandType.StoredProcedure,
+            TimeSpan? cmdTimeoutSeconds = null
         )
         {
             List<object> l = new List<object>();
@@ -35,7 +40,8 @@ namespace Util
                 l,
                 isBeginTransaction,
                 isRollbackForTest,
-                argCommandType
+                argCommandType,
+                cmdTimeoutSeconds
             );
         }
 
@@ -44,7 +50,8 @@ namespace Util
             SqlTransaction tran,
             string commandText,
             List<SqlParameter> paramsList,
-            CommandType argCommandType = CommandType.StoredProcedure
+            CommandType argCommandType = CommandType.StoredProcedure,
+            TimeSpan? cmdTimeoutSeconds = null
         )
         {
             List<object> l = new List<object>();
@@ -55,7 +62,8 @@ namespace Util
                 tran: tran,
                 argCommandType: argCommandType,
                 commandText: commandText,
-                paramsList: l                
+                paramsList: l,
+                cmdTimeoutSeconds: cmdTimeoutSeconds
             );
         }
 

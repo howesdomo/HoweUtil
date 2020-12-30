@@ -8,6 +8,10 @@ using System.Text;
 namespace Util
 {
     /// <summary>
+    /// V 1.0.2 - 2020-12-30 15:04:36
+    /// 增加参数 TimeSpan? cmdTimeoutSeconds = null 控制超时时长, 默认空值。
+    /// cmdTimeoutSeconds 为 null 时 CommandTimeout 默认值为 30 秒
+    /// 
     /// V 1.0.1 - 2020-9-29 16:03:41
     /// 改写 DBHelper 由原来只支持 SQLServer, 变为目前测试可以支持 SQLServer / Oracle / SQLite / MySQL 等数据库访问
     /// 1 增加主流数据库工厂属性, 具体项目应先注册需要使用到的数据库Factory
@@ -81,7 +85,8 @@ namespace Util
             List<object> paramsList,
             bool isBeginTransaction = false,
             bool isRollbackForTest = false,
-            CommandType argCommandType = CommandType.StoredProcedure
+            CommandType argCommandType = CommandType.StoredProcedure,
+            TimeSpan? cmdTimeoutSeconds = null
         )
         {
             DataSet r = new DataSet();
@@ -104,6 +109,11 @@ namespace Util
                     else // 普通执行模式
                     {
                         cmd = conn.CreateCommand();
+                    }
+
+                    if (cmdTimeoutSeconds.HasValue)
+                    {
+                        cmd.CommandTimeout = (int)cmdTimeoutSeconds.Value.TotalSeconds;
                     }
 
                     cmd.CommandType = argCommandType;
@@ -154,7 +164,8 @@ namespace Util
             DbTransaction tran,
             string commandText,
             List<object> paramsList,
-            CommandType argCommandType = CommandType.StoredProcedure
+            CommandType argCommandType = CommandType.StoredProcedure,
+            TimeSpan? cmdTimeoutSeconds = null
         )
         {
             DataSet r = new DataSet();
@@ -197,6 +208,11 @@ namespace Util
                 {
                     factory = GetDbProviderFactory(DbProvider.MySQL);
                 }
+            }
+
+            if (cmdTimeoutSeconds.HasValue)
+            {
+                cmd.CommandTimeout = (int)cmdTimeoutSeconds.Value.TotalSeconds;
             }
 
             // 由于 4.0 没有 DbProviderFactories.GetFactory(DbConnection) 的重载
