@@ -159,6 +159,7 @@
     <Compile Include="OCR\OCRModel.cs" />
     <Compile Include="ProgressUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegexUtils.cs" />
     <Compile Include="UIComponent\BaseCollection.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="UIModel\UcConsole\ConsoleMsgType.cs" />
