@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 namespace Util.Excel
 {
     /// <summary>
+    /// V 1.0.2 2021-02-02 10:05:00
+    /// 为实现 interface 的方法增加多个静态方法 ( StaticMethod ), 方便调用
+    /// 
     /// V 1.0.1 2019-9-23 09:50:57
     /// 检测 Xxx2Excel 方法中, 传入参数 path 后缀名, 不符合则抛错
     /// 
@@ -28,8 +31,8 @@ namespace Util.Excel
         {
             // TODO 读取版本号, 根据版本号执行对应的初始化方法
             // InitializeAsposeCells_v8_6_3();
-            // InitializeAsposeCells_v18_12_0();
-            InitializeAsposeCells_v19_5_0();
+            InitializeAsposeCells_v18_12_0();
+            // InitializeAsposeCells_v19_5_0();
         }
 
         /// <summary>
@@ -159,8 +162,13 @@ namespace Util.Excel
             return true;
         }
 
+        [Obsolete("已过期")]
         public static void InitializeAsposeCells_v19_5_0()
         {
+            // 已过期 执行时报错 
+            // System.InvalidOperationException: 'The subscription included in this license allows free upgrades until 17 May 2019, 
+            // but this version of the product was released on 13 Jan 2021. Please renew the subscription or use a previous version of the product.'
+
             // 热心网友提供的 Key , 未清楚可以使用到什么时间, 但确实能够正常使用
             string LData = "77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiID8+DQo8TGljZW5zZT4NCiAgPERhdGE+DQogICAgPExpY2Vuc2VkVG8+U2hhbmdoYWkgSHVkdW4gSW5mb3JtYXRpb24gVGVjaG5vbG9neSBDby4sIEx0ZDwvTGljZW5zZWRUbz4NCiAgICA8RW1haWxUbz4zMTc3MDE4MDlAcXEuY29tPC9FbWFpbFRvPg0KICAgIDxMaWNlbnNlVHlwZT5EZXZlbG9wZXIgT0VNPC9MaWNlbnNlVHlwZT4NCiAgICA8TGljZW5zZU5vdGU+TGltaXRlZCB0byAxIGRldmVsb3BlciwgdW5saW1pdGVkIHBoeXNpY2FsIGxvY2F0aW9uczwvTGljZW5zZU5vdGU+DQogICAgPE9yZGVySUQ+MTgwNTE0MjAxMTE2PC9PcmRlcklEPg0KICAgIDxVc2VySUQ+MjY2MTY2PC9Vc2VySUQ+DQogICAgPE9FTT5UaGlzIGlzIGEgcmVkaXN0cmlidXRhYmxlIGxpY2Vuc2U8L09FTT4NCiAgICA8UHJvZHVjdHM+DQogICAgICA8UHJvZHVjdD5Bc3Bvc2UuVG90YWwgZm9yIC5ORVQ8L1Byb2R1Y3Q+DQogICAgPC9Qcm9kdWN0cz4NCiAgICA8RWRpdGlvblR5cGU+RW50ZXJwcmlzZTwvRWRpdGlvblR5cGU+DQogICAgPFNlcmlhbE51bWJlcj4yMTBlYzhlNy04MWUxLTQ1MzctYjQ0Ni02OTJkZTQ5ODEyMTc8L1NlcmlhbE51bWJlcj4NCiAgICA8U3Vic2NyaXB0aW9uRXhwaXJ5PjIwMTkwNTE3PC9TdWJzY3JpcHRpb25FeHBpcnk+DQogICAgPExpY2Vuc2VWZXJzaW9uPjMuMDwvTGljZW5zZVZlcnNpb24+DQogICAgPExpY2Vuc2VJbnN0cnVjdGlvbnM+aHR0cDovL3d3dy5hc3Bvc2UuY29tL2NvcnBvcmF0ZS9wdXJjaGFzZS9saWNlbnNlLWluc3RydWN0aW9ucy5hc3B4PC9MaWNlbnNlSW5zdHJ1Y3Rpb25zPg0KICA8L0RhdGE+DQogIDxTaWduYXR1cmU+Y3RKM3lMeFNBUHNCUWQwSmNxZjdDQTUzRnpOMVlydmFBNWRTclRwZEZXL0FmaDBoeUtLd3J5K0MxdGpXSU9FRnl6S1lXSCtOZ24vSGVYVXpNUUpBMFJvb3djcTExMm5WL1FuclNTcURtNkZKVk5zc0g0cC9ZbVhSamw3TEJpeHdWOEFieVdYOGxoVm95b2s3bEk1azVLOGJiYUsrVDhVcitqSXdTWkFjbVZBPTwvU2lnbmF0dXJlPg0KPC9MaWNlbnNlPg==";
             Stream stream = new MemoryStream(Convert.FromBase64String(LData));
@@ -1336,42 +1344,126 @@ namespace Util.Excel
             GC.Collect();
         }
 
+        #region 为实现 interface 的方法增加多个静态方法 ( StaticMethod ), 方便调用        
+
+        private static Util.Excel.ExcelUtils_Aspose sInstance = new Util.Excel.ExcelUtils_Aspose();
+
+        public static List<T> WorkSheet2List_StaticMethod<T>(
+            string path,
+            List<PropertyColumn> objectProps,
+            int worksheetIndex = 0,
+            bool isContainColumnHeader = true,
+            int startCellRowIndex = 0, int startCellColumnIndex = 0,
+            bool ignoreRepeatColumnHeaderName = false
+            ) where T : class, new()
+        {
+
+            return sInstance.WorkSheet2List<T>
+            (
+                path: path,
+                objectProps: objectProps,
+                worksheetIndex: worksheetIndex,
+                isContainColumnHeader: isContainColumnHeader,
+                startCellRowIndex: startCellRowIndex,
+                startCellColumnIndex: startCellColumnIndex,
+                ignoreRepeatColumnHeaderName: ignoreRepeatColumnHeaderName
+            );
+        }
+
+        public static void WorkSheet2ListAsync_StaticMethod<T>
+        (
+            Action<Task<List<T>>> actionHandler,
+            string path,
+            List<PropertyColumn> objectProps,
+            int worksheetIndex = 0,
+            bool isContainColumnHeader = true,
+            int startCellRowIndex = 0, int startCellColumnIndex = 0,
+            bool ignoreRepeatColumnHeaderName = false
+        ) where T : class, new()
+        {
+            sInstance.WorkSheet2ListAsync<T>
+            (
+                actionHandler: actionHandler,
+                path: path,
+                objectProps: objectProps,
+                worksheetIndex: worksheetIndex,
+                isContainColumnHeader: isContainColumnHeader,
+                startCellRowIndex: startCellRowIndex,
+                startCellColumnIndex: startCellColumnIndex,
+                ignoreRepeatColumnHeaderName: ignoreRepeatColumnHeaderName
+            );
+        }
+
+        public static DataSet Excel2DataSetStepByStep_StaticMethod(string path, ExcelReaderConfig config = null)
+        {
+            return sInstance.Excel2DataSetStepByStep
+            (
+                path: path,
+                config: config
+            );
+        }
+
+        public static void DataSet2ExcelStepByStep_StaticMethod(string path, DataSet dataSet, bool[] showColumnNameArray = null, int[,] positionArray = null)
+        {
+            sInstance.DataSet2ExcelStepByStep
+            (
+                path: path,
+                dataSet: dataSet,
+                showColumnNameArray: showColumnNameArray,
+                positionArray: positionArray
+            );
+        }
+
+        #endregion
 
 
-        ///// <summary>
-        ///// 打印DEMO
-        ///// Aspose.Cell 原理输出为Image, 打印Image
-        ///// </summary>
-        //public static void PrintDemo(string filePath)
-        //{
-        //    Workbook workbook = new Workbook(filePath);
 
-        //    //Get the worksheet to be printed
-        //    Worksheet worksheet = workbook.Worksheets[0];
+        /// <summary>
+        /// 检查是否授权成功
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsLicensed()
+        {
+            using (Aspose.Cells.Workbook wb = new Workbook())
+            {
+                return wb.IsLicensed;
+            }
+        }
 
-        //    PageSetup pageSetup = worksheet.PageSetup;
-        //    pageSetup.Orientation = PageOrientationType.Landscape;
-        //    //pageSetup.LeftMargin = 0;
-        //    //pageSetup.RightMargin = 0.1;
-        //    //pageSetup.BottomMargin = 0.3;
-        //    //pageSetup.PrintArea = "A2:J29"; // 打印区域
-        //    //Apply different Image / Print options.
+        /// <summary>
+        /// 打印DEMO
+        /// Aspose.Cell 原理输出为Image, 打印Image
+        /// </summary>
+        public static void PrintDemo(string filePath)
+        {
+            Workbook workbook = new Workbook(filePath);
 
-        //    Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
+            //Get the worksheet to be printed
+            Worksheet worksheet = workbook.Worksheets[0];
 
-        //    //Set the Printing page property
-        //    //options.PrintingPage = PrintingPageType.IgnoreStyle;
-        //    //Render the worksheet
+            PageSetup pageSetup = worksheet.PageSetup;
+            pageSetup.Orientation = PageOrientationType.Landscape;
+            //pageSetup.LeftMargin = 0;
+            //pageSetup.RightMargin = 0.1;
+            //pageSetup.BottomMargin = 0.3;
+            //pageSetup.PrintArea = "A2:J29"; // 打印区域
+            //Apply different Image / Print options.
 
-        //    Aspose.Cells.Rendering.SheetRender sr = new Aspose.Cells.Rendering.SheetRender(worksheet, options);
+            Aspose.Cells.Rendering.ImageOrPrintOptions options = new Aspose.Cells.Rendering.ImageOrPrintOptions();
 
-        //    System.Drawing.Image map = sr.ToImage(0); // 核心 -- 将 SheetRendar转为 Image 进行打印
-        //                                              // map.Save(@"D:\HoweDesktop\A{0}".FormatWith(DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")));
+            //Set the Printing page property
+            //options.PrintingPage = PrintingPageType.IgnoreStyle;
+            //Render the worksheet
 
-        //    // send to printer 核心打印 Image
-        //    System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
-        //    string strPrinterName = printSettings.PrinterName;
-        //    sr.ToPrinter(strPrinterName);
-        //}
+            Aspose.Cells.Rendering.SheetRender sr = new Aspose.Cells.Rendering.SheetRender(worksheet, options);
+
+            System.Drawing.Image map = sr.ToImage(0); // 核心 -- 将 SheetRendar转为 Image 进行打印
+                                                      // map.Save(@"D:\HoweDesktop\A{0}".FormatWith(DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")));
+
+            // send to printer 核心打印 Image
+            System.Drawing.Printing.PrinterSettings printSettings = new System.Drawing.Printing.PrinterSettings();
+            string strPrinterName = printSettings.PrinterName;
+            sr.ToPrinter(strPrinterName);
+        }
     }
 }

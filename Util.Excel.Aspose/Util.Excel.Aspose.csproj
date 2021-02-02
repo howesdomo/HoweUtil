@@ -66,8 +66,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells">
-      <HintPath>DLL\Aspose.Cells.dll</HintPath>
+    <Reference Include="Aspose.Cells, Version=18.12.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\..\TestAspose\packages\Aspose.Cells.18.12.0\lib\net40\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -77,6 +77,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Util.HowesDOMO, Version=1.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\TestAspose\packages\Util.HowesDOMO.1.0.16\lib\net40\Util.HowesDOMO.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelUtils_Aspose.cs" />
@@ -86,12 +89,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Util.HowesDOMO\Util.HowesDOMO.csproj">
-      <Project>{3363da83-f692-4367-b905-062451aca009}</Project>
-      <Name>Util.HowesDOMO</Name>
-    </ProjectReference>
+    <None Include="Util.Excel.Aspose.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\Aspose.Cells.dll" />
