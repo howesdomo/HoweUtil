@@ -165,6 +165,7 @@
     <Compile Include="UIComponent\ObservableQueue.cs" />
     <Compile Include="UIComponent\VirtualModel.cs" />
     <Compile Include="UIModel\UcConsole\ConsoleMsgType.cs" />
+    <Compile Include="UIModel\UcReportXxx\ReportXxx.cs" />
     <Compile Include="WebDateTime.cs" />
     <Compile Include="WebService\WebServiceModel.cs" />
     <Compile Include="Web\SocketExtension.cs" />

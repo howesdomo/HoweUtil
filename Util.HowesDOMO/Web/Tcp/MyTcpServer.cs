@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 namespace Util.Web
 {
     /// <summary>
+    /// V 1.0.10 - 2021-03-08 14:30:00
+    /// 修复Bug : 属性  (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 改为非静态属性
+    /// 在一个项目中启用多个 MyTcpClient 实例时, 静态的 (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 属性
+    /// 会导致不同实例的读取时机错乱
+    /// 
     /// V 1.0.9
     /// 1 服务器发送信息优化为 并行foreach
     /// 2 增加 Send byte[]
@@ -222,7 +227,10 @@ namespace Util.Web
         }
 
         bool mTcpListen_WhileArgs { get; set; }
-        public static System.Threading.ManualResetEvent mTcpListen_AutoSetEvent = new System.Threading.ManualResetEvent(false);
+
+        // 2021-03-08 不能采用静态, 创建多个实例时, 会令到读取的控制混乱
+        // public static System.Threading.ManualResetEvent mTcpListen_AutoSetEvent = new System.Threading.ManualResetEvent(false);
+        public System.Threading.ManualResetEvent mTcpListen_AutoSetEvent { get; set; } = new System.Threading.ManualResetEvent(false);
 
         // 监听
         private void ListenClientConnect()
@@ -634,6 +642,25 @@ namespace Util.Web
         }
 
         #endregion
+
+        /// <summary>
+        /// 设置发送/接收信息编码
+        /// </summary>
+        /// <param name="e"></param>
+        public void SetEncoding(Encoding e1, Encoding e2)
+        {
+            mSendEncoding = e1;
+            mReceiveEncoding = e2;
+        }
+
+        /// <summary>
+        /// 设置发送/接收信息编码 ( 发送/接收信息编码相同 )
+        /// </summary>
+        /// <param name="e"></param>
+        public void SetEncoding(Encoding e)
+        {
+            SetEncoding(e, e);
+        }
 
         #region 注册事件 - 服务状态更新时间
 
