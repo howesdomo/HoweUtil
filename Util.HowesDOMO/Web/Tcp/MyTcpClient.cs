@@ -9,9 +9,10 @@ namespace Util.Web
 {
     /// <summary>
     /// V 1.0.9 - 2021-03-08 14:30:00
-    /// 修复Bug : 属性  (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 改为非静态属性
+    /// 1 修复Bug : 属性  (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 改为非静态属性
     /// 在一个项目中启用多个 MyTcpClient 实例时, 静态的 (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 属性
     /// 会导致不同实例的读取时机错乱
+    /// 2 SendMethods 修改参数 bool isShowSendContent 改为 bool?, 新增参数 Encoding 用于发送与 mSendEncoding 不相同的编码的数据
     /// 
     /// V 1.0.8
     /// 1 增加 Send byte[]
@@ -509,7 +510,22 @@ namespace Util.Web
 
         private List<DateTime> mCharStartErrorList { get; set; }
 
-        public void Send(string sendContent, Encoding encoding = null, bool isShowSendContent = false)
+        void handleIsShowSendContent(bool? isShowSendContent, string sendContent)
+        {
+            if (isShowSendContent.HasValue == true)
+            {
+                if (isShowSendContent.Value == true)
+                {
+                    onStatusChange($"Send:{sendContent}");
+                }
+                else
+                {
+                    onStatusChange($"StandardSend:信息长度{sendContent.Length}");
+                }
+            }
+        }
+
+        public void Send(string sendContent, Encoding encoding = null, bool? isShowSendContent = false)
         {
             if (this.IsConnectServer == false)
             {
@@ -520,22 +536,15 @@ namespace Util.Web
             {
                 mTcpClient.Send(sendContent, encoding);
             }
-            else 
-            {
-                mTcpClient.Send(sendContent, mSendEncoding ?? Encoding.UTF8); // 自定义扩展方法            
-            }            
-
-            if (isShowSendContent)
-            {
-                onStatusChange($"Send:{sendContent}");
-            }
             else
             {
-                onStatusChange($"StandardSend:信息长度{sendContent.Length}");
+                mTcpClient.Send(sendContent, mSendEncoding ?? Encoding.UTF8); // 自定义扩展方法            
             }
+
+            handleIsShowSendContent(isShowSendContent, sendContent);
         }
 
-        public void Send(byte[] byteArr, bool isShowSendContent = false)
+        public void Send(byte[] byteArr, Encoding encodingGetString = null, bool? isShowSendContent = false)
         {
             if (this.IsConnectServer == false)
             {
@@ -544,18 +553,24 @@ namespace Util.Web
 
             mTcpClient.Send(byteArr); // 自定义扩展方法
 
-            if (isShowSendContent)
+            if (isShowSendContent.HasValue)
             {
-                var sendContent = (mSendEncoding ?? Encoding.UTF8).GetString(byteArr);
-                onStatusChange($"StandardSend:{sendContent}");
-            }
-            else
-            {
-                onStatusChange($"StandardSend:信息长度{byteArr.Length}");
+                string sendContent = string.Empty;
+
+                if (encodingGetString != null)
+                {
+                    sendContent = encodingGetString.GetString(byteArr);
+                }
+                else
+                {
+                    sendContent = (mSendEncoding ?? Encoding.UTF8).GetString(byteArr);
+                }
+
+                handleIsShowSendContent(isShowSendContent, sendContent);
             }
         }
 
-        public void StandardSend(string sendContent, bool isShowSendContent = false)
+        public void StandardSend(string sendContent, Encoding encodingGetString = null, bool? isShowSendContent = false)
         {
             if (this.IsConnectServer == false)
             {
@@ -563,17 +578,11 @@ namespace Util.Web
             }
 
             mTcpClient.StandardSend(sendContent, mSendEncoding ?? Encoding.UTF8);
-            if (isShowSendContent)
-            {
-                onStatusChange($"StandardSend:{sendContent}");
-            }
-            else
-            {
-                onStatusChange($"StandardSend:信息长度{sendContent.Length}");
-            }
+
+            handleIsShowSendContent(isShowSendContent, sendContent);
         }
 
-        public void StandardSend(byte[] byteArr, bool isShowSendContent = false)
+        public void StandardSend(byte[] byteArr, Encoding encodingGetString = null, bool? isShowSendContent = false)
         {
             if (this.IsConnectServer == false)
             {
@@ -581,14 +590,20 @@ namespace Util.Web
             }
 
             mTcpClient.StandardSend(byteArr);
-            if (isShowSendContent)
+
+            if (isShowSendContent.HasValue)
             {
-                var sendContent = (mSendEncoding ?? Encoding.UTF8).GetString(byteArr);
-                onStatusChange($"StandardSend:{sendContent}");
-            }
-            else
-            {
-                onStatusChange($"StandardSend:信息长度{byteArr.Length}");
+                string sendContent = string.Empty;
+                if (encodingGetString != null)
+                {
+                    sendContent = encodingGetString.GetString(byteArr);
+                }
+                else
+                {
+                    sendContent = (mSendEncoding ?? Encoding.UTF8).GetString(byteArr);
+                }
+
+                handleIsShowSendContent(isShowSendContent, sendContent);
             }
         }
 
