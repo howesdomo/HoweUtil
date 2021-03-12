@@ -990,10 +990,19 @@ namespace Util.Excel
                     throw new Exception("获取工作表列头信息发生了错误。（ExcelUtils_Aspose GetHeader）\r\n", ex);
                 }
             }
-
         }
 
         #endregion
+
+        public DataSet Excel2DataSetStepByStep(string path, ExcelReaderConfig config = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DataSet2ExcelStepByStep(string path, DataSet dataSet, bool[] showColumnNameArray = null, int[,] positionArray = null)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 
