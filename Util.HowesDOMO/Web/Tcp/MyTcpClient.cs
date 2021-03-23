@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 namespace Util.Web
 {
     /// <summary>
+    /// V 1.0.10 - 2021-03-15 10:32:12
+    /// 修复 Send 与 StandardSend Encoding 参数的错误调用
+    /// 
     /// V 1.0.9 - 2021-03-08 14:30:00
     /// 1 修复Bug : 属性  (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 改为非静态属性
     /// 在一个项目中启用多个 MyTcpClient 实例时, 静态的 (System.Threading.ManualResetEvent) mTcpListen_AutoSetEvent 属性
@@ -538,7 +541,7 @@ namespace Util.Web
             }
             else
             {
-                mTcpClient.Send(sendContent, mSendEncoding ?? Encoding.UTF8); // 自定义扩展方法            
+                mTcpClient.Send(sendContent, mSendEncoding ?? Encoding.UTF8); // 自定义扩展方法
             }
 
             handleIsShowSendContent(isShowSendContent, sendContent);
@@ -570,14 +573,21 @@ namespace Util.Web
             }
         }
 
-        public void StandardSend(string sendContent, Encoding encodingGetString = null, bool? isShowSendContent = false)
+        public void StandardSend(string sendContent, Encoding encoding = null, bool? isShowSendContent = false)
         {
             if (this.IsConnectServer == false)
             {
                 return;
             }
 
-            mTcpClient.StandardSend(sendContent, mSendEncoding ?? Encoding.UTF8);
+            if (encoding != null)
+            {
+                mTcpClient.StandardSend(sendContent, encoding);
+            }
+            else
+            {
+                mTcpClient.StandardSend(sendContent, mSendEncoding ?? Encoding.UTF8); // 自定义扩展方法
+            }
 
             handleIsShowSendContent(isShowSendContent, sendContent);
         }
