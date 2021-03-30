@@ -89,6 +89,7 @@
     <Compile Include="ActionUtils.cs" />
     <Compile Include="CommonExtensions\ByteExtension.cs" />
     <Compile Include="CommonExtensions\CharExtension.cs" />
+    <Compile Include="CommonExtensions\DataSetExtension.cs" />
     <Compile Include="CommonExtensions\DataTableExtension.cs" />
     <Compile Include="CommonExtensions\DecimalExtension.cs" />
     <Compile Include="CommonExtensions\IListExtension.cs" />
