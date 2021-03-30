@@ -96,6 +96,7 @@
     <Compile Include="CommonExtensions\StringExtension.cs" />
     <Compile Include="CommonExtensions\TimeSpanExtension.cs" />
     <Compile Include="CommonExtensions\TypeExtension.cs" />
+    <Compile Include="CommonExtensions\UriExtension.cs" />
     <Compile Include="Comparer\MyStrLogicalComparer.cs" />
     <Compile Include="Comparer\StrLogicalComparer.cs" />
     <Compile Include="Cryptography\DESUtils.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Web\Tcp\MyTcpServer.cs" />
     <Compile Include="Web\Tcp\TcpXxxModel.cs" />
     <Compile Include="Web\Tcp\TcpXxxStatusChangeEventArgs.cs" />
+    <Compile Include="UriUtils.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\IPAddressModel.cs" />
     <Compile Include="Web\IPAddressUtils.cs" />
